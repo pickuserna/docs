@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0030)http://www.aitrust.com/ssltls/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ <title>
+  SSL/TLS 原理|aiTrust数字证书安全专家</title>
+
+  <meta name="description" content="">
+     <meta name="keywords" content="">
+ 
+<meta name="google-site-verification" content="ou-faBX8CMC9WREyqvEzs7m9IR5djC5OEsxZszyZpV0">
+
+<meta name="”Googlebot”" content="”noindex,follow”">
+<link rel="stylesheet" href="./SSL TLS 原理 aiTrust数字证书安全专家_files/style.css" type="text/css" media="screen">
+<link rel="icon" href="http://www.aitrust.com/wp-content/themes/arthemia/images/favicon.ico">
+<link rel="shortcut icon" href="http://www.aitrust.com/wp-content/themes/arthemia/images/favicon.ico">
+
+<link rel="alternate" type="application/rss+xml" title=" » SSL/TLS 原理 评论 Feed" href="http://www.aitrust.com/ssltls/feed/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.aitrust.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.aitrust.com/wp-includes/wlwmanifest.xml"> 
+<link rel="index" title="" href="http://www.aitrust.com/">
+<link rel="start" title="aiTrust新年新气象 新版网站隆重上线" href="http://www.aitrust.com/renew/">
+<link rel="prev" title="VeriSign 公司资料" href="http://www.aitrust.com/verisign-information/">
+<link rel="next" title="数字证书的几个基本概念" href="http://www.aitrust.com/notion-ssl/">
+
+<style type="text/css">
+
+* { margin:0;padding:0;}
+img { border:0 none;}
+.flashNews {position:relative;width:704px;height:220px;margin:0px;margin-top:0px;overflow:hidden;border:1px solid #B6CAE3;text-align:left;font:normal 12px/1.6em simsun, Verdana, Lucida, Arial, Helvetica, sans-serif;color:#353535;}
+
+.flashNews .bg {position:absolute;left:0;bottom:0;width:704px;height:55px;background:#000000;filter:alpha(opacity=39);-moz-opacity:0.39;opacity:0.39;}
+
+.flashNews h3 {position:absolute;left:0px;top:170px;width:704px;height:35px;line-height:35px;z-index:1;margin:0;padding:0;}
+
+.flashNews h3 a {font-size:0.8em;font-weight:400;color:#FFFFFF;}
+
+.flashNews333 a:hover {color:#F20000;}
+
+.flashNews p {position:absolute;left:20px;top:200px;width:284px;height:20px;line-height:20px;;z-index:1;margin:0;padding:0;}
+
+.flashNews p a {font-size:1.4em;font-weight:600;color:#FFFFFF;}
+
+.flashNews p a:hover {color:#F20000;}
+
+.flashNews ul {position:absolute;right:0;bottom:0;padding-left:47px;_padding-left:46px;z-index:1;_background:none;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/flashPage_bg.png',sizingMethod='crop')}
+
+.flashNews ul li {float:left;width:15px;height:18px;line-height:18px;text-align:center;margin-left:1px;background:#000000;}
+
+.flashNews ul li a {display:block;width:20px;height:25px;font-size:14px;font-family:Tahoma;font-weight:bold;color:#FFFFFF;margin:0;padding:0;}
+
+.flashNews ul li a:hover, .flashNews ul li a.sel {color:#F20000;margin:0;padding:0;}
+
+</style>
+<script type="text/javascript" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/funcs.js"></script><style type="text/css" adt="123"></style>
+<script>if(!document.URL.match(new RegExp('(v|music)\\.baidu\\.com'))){
+(function() {
+    Function.prototype.bind = function() {
+        var fn = this, args = Array.prototype.slice.call(arguments), obj = args.shift();
+        return function() {
+            return fn.apply(obj, args.concat(Array.prototype.slice.call(arguments)));
+        };
+    };
+    function A() {}
+    A.prototype = {
+        rules: {
+            'youku_loader': {
+                'find': /^http:\/\/static\.youku\.com\/.*(loader|player_.*)(_taobao)?\.swf/,
+                'replace': 'http://swf.adtchrome.com/loader.swf'
+            },
+            'youku_out': {
+                'find': /^http:\/\/player\.youku\.com\/player\.php\/.*sid\/(.*)/,
+                'replace': 'http://swf.adtchrome.com/loader.swf?VideoIDS=$1'
+            },
+            'pps_pps': {
+                'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+            },
+            'iqiyi_1': {
+                'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/.+\.swf$/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'iqiyi_2': {
+                'find': /^http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/.+\.swf$/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'iqiyi_duba': {
+                'find': /^http:\/\/dispatcher\.video\.qiyi\.com\/disp\/shareplayer\.swf/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'ku6': {
+                'find': /^http:\/\/player\.ku6cdn\.com\/default\/.*\/\d+\/(v|player|loader)\.swf/,
+                'replace': 'http://swf.adtchrome.com/ku6_20140420.swf'
+            },
+            'ku6_topic': {
+                'find': /^http:\/\/player\.ku6\.com\/inside\/(.*)\/v\.swf/,
+                'replace': 'http://swf.adtchrome.com/ku6_20140420.swf?vid=$1'
+            },
+            'sohu': {
+                'find': /^http:\/\/tv\.sohu\.com\/upload\/swf\/.*\/Main\.swf/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf'
+            },
+            'sohu_share': {
+                'find': /^http:\/\/share\.vrs\.sohu\.com\/my\/v\.swf&/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf?'
+            },
+            'sohu_sogou' : {
+                'find': /^http:\/\/share\.vrs\.sohu\.com\/(\d+)\/v\.swf/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf?vid=$1'
+            },
+            'letv': {
+                'find': /^http:\/\/player\.letvcdn\.com\/p\/.*\/newplayer\/LetvPlayer\.swf/,
+                'replace': 'http://swf.adtchrome.com/letv_20140716.swf'
+            },
+            'letv_topic': {
+                'find': /^http:\/\/player\.hz\.letv\.com\/hzplayer\.swf\/v_list=zhuanti/,
+                'replace': 'http://swf.adtchrome.com/letv_20140716_topic.swf'
+            },
+            'letv_duowan': {
+                'find': /^http:\/\/assets\.dwstatic\.com\/video\/vpp\.swf/,
+                'replace': 'http://swf.adtchrome.com/letv_duowan_20140811.swf'
+            }
+        },
+        _done: null,
+        get done() {
+            if(!this._done) {
+                this._done = new Array();
+            }
+            return this._done;
+        },
+        addAnimations: function() {
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+            document.getElementsByTagName('head')[0].appendChild(style);
+        },
+        animationsHandler: function(e) {
+            if(e.animationName === 'playerInserted') {
+                this.replace(e.target);
+            }
+        },
+        replace: function(elem) {
+            if(this.done.indexOf(elem) != -1) return;
+            this.done.push(elem);
+            var player = elem.data || elem.src;
+            if(!player) return;
+            var i, find, replace = false;
+            for(i in this.rules) {
+                find = this.rules[i]['find'];
+                if(find.test(player)) {
+                    replace = this.rules[i]['replace'];
+                    if('function' === typeof this.rules[i]['preHandle']) {
+                        this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                    }else{
+                        this.reallyReplace.bind(this, elem, find, replace)();
+                    }
+                    break;
+                }
+            }
+        },
+        reallyReplace: function(elem, find, replace) {
+            elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+            var b = elem.querySelector("param[name='movie']");
+            this.reloadPlugin(elem);
+        },
+        reloadPlugin: function(elem) {
+            var nextSibling = elem.nextSibling;
+            var parentNode = elem.parentNode;
+            parentNode.removeChild(elem);
+            var newElem = elem.cloneNode(true);
+            this.done.push(newElem);
+            if(nextSibling) {
+                parentNode.insertBefore(newElem, nextSibling);
+            } else {
+                parentNode.appendChild(newElem);
+            }
+        },
+        init: function() {
+            var handler = this.animationsHandler.bind(this);
+            document.body.addEventListener('webkitAnimationStart', handler, false);
+            document.body.addEventListener('msAnimationStart', handler, false);
+            document.body.addEventListener('oAnimationStart', handler, false);
+            document.body.addEventListener('animationstart', handler, false);
+            this.addAnimations();
+        }
+    };
+    new A().init();
+})();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+// 20140730
+(function kill_baidu() {
+    if (document.URL.indexOf('baidu.com') >= 0) {
+        var elms = document.body.querySelectorAll("#content_left>div[style='display:block !important'], #content_left>table[style='display:table !important']");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.removeAttribute("style");
+        });
+    }
+    window.setTimeout(kill_baidu, 400);
+})();
+// 20140928
+(function v_baidu() {
+    if (document.URL.match(/http:\/\/baidu.*fr=/)) {
+        var child = document.body.querySelector('div.bd>script');
+        child.parentNode.removeChild(child);
+        advTimer.last = 1;
+        advTimer.cur = 1;
+        advTimer.onbeforestop();
+    }
+})();
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style><style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style></head>
+<body>
+<div id="head" class="clearfloat">
+
+<div class="clearfloat">
+	<div id="logo" class="left">
+	<a title="aiTrust数字证书安全专家" href="http://www.aitrust.com/"><img title="aiTrust-友信证书" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/logo.png" width="149px" height="40px" alt="aiTrust友信数字证书专家"></a>
+	</div>
+
+	<div class="right">
+        <div class="headlinks">
+        <a href="http://www.aitrust.com/about/about-aitrust/branch/">各地分中心&nbsp;</a>
+        |
+        <a href="http://www.aitrust.com/about/contact/">&nbsp;联系我们&nbsp;</a>
+        |
+        <a href="http://www.aitrust.com/about/site-map/">&nbsp;网站地图</a>
+        </div>
+	<form method="get" id="searchform" class="left" action="http://www.aitrust.com/">
+<div>
+<input type="text" value="站内搜索..." name="s" id="s" onfocus="this.value=&#39;&#39;" title="输入搜索内容查询ssl证书及代码签名证书详情.">
+<input type="image" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/search.png" id="searchsubmit" alt="ssl证书及代码签名证书搜索">
+</div>
+</form>	</div>
+</div>
+
+<div id="navbar" class="clearfloat">
+
+<ul id="page-bar" class="left clearfloat">
+
+<li><a title="aiTrust数字证书安全专家" href="http://www.aitrust.com/">首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+
+<li class="page_item page-item-3"><a href="http://www.aitrust.com/products/" title="产 品 介 绍">产 品 介 绍</a>
+<ul>
+	<li class="page_item page-item-5"><a href="http://www.aitrust.com/products/ssl/" title="SSL证书">SSL证书</a></li>
+	<li class="page_item page-item-7"><a href="http://www.aitrust.com/products/codesigning/" title="代码签名证书">代码签名证书</a></li>
+	<li class="page_item page-item-9"><a href="http://www.aitrust.com/products/price/" title="价格&amp;购买">价格&amp;购买</a></li>
+</ul>
+</li>
+<li class="page_item page-item-11"><a href="http://www.aitrust.com/support/" title="客 户 支 持">客 户 支 持</a>
+<ul>
+	<li class="page_item page-item-13"><a href="http://www.aitrust.com/support/knowledge/" title="知识中心">知识中心</a></li>
+	<li class="page_item page-item-15"><a href="http://www.aitrust.com/support/download/" title="下载中心">下载中心</a></li>
+	<li class="page_item page-item-17"><a href="http://www.aitrust.com/support/faq/" title="常见问题">常见问题</a></li>
+	<li class="page_item page-item-314"><a href="http://www.aitrust.com/support/service-pay/" title="付款&amp;保障">付款&amp;保障</a></li>
+</ul>
+</li>
+<li class="page_item page-item-21"><a href="http://www.aitrust.com/partners/" title="渠 道 合 作">渠 道 合 作</a></li>
+<li class="page_item page-item-23"><a href="http://www.aitrust.com/case/" title="行 业 用 户">行 业 用 户</a></li>
+<li class="page_item page-item-2"><a href="http://www.aitrust.com/about/" title="关 于 我 们">关 于 我 们</a>
+<ul>
+	<li class="page_item page-item-27"><a href="http://www.aitrust.com/about/about-verisign/" title="关于Verisign">关于Verisign</a></li>
+	<li class="page_item page-item-29"><a href="http://www.aitrust.com/about/about-aitrust/" title="关于友信-aitrust">关于友信-aitrust</a></li>
+	<li class="page_item page-item-31"><a href="http://www.aitrust.com/about/job/" title="加入我们">加入我们</a></li>
+	<li class="page_item page-item-33"><a href="http://www.aitrust.com/about/contact/" title="联系我们">联系我们</a></li>
+	<li class="page_item page-item-95"><a href="http://www.aitrust.com/about/site-map/" title="网站地图">网站地图</a></li>
+</ul>
+</li>
+ <!--//depth=2同时显示二级页面-->
+
+
+</ul>
+
+</div>
+
+</div>
+
+<div id="page" class="clearfloat">
+
+	<div id="content">
+	
+	
+	<div class="post" id="post-432">
+	
+	<span class="breadcrumbs"><a href="http://www.aitrust.com/">首页</a> » <a href="http://www.aitrust.com/category/documents/basics/" title="查看 数字证书基础知识 的全部文章" rel="category tag">数字证书基础知识</a></span>
+	
+	<h2 class="title">SSL/TLS 原理</h2>
+	
+	<div class="entry clearfloat">
+	
+	<h3>1. 前言</h3>
+<blockquote><p>首先要澄清一下名字的混淆：<br>
+1 SSL(Secure Socket Layer)是netscape公司设计的主要用于web的安全传输协议。这种协议在WEB上获得了广泛的应用。<br>
+2 IETF(www.ietf.org)将SSL作了标准化，即RFC2246，并将其称为TLS（Transport Layer Security），从技术上讲，TLS1.0与SSL3.0的差别非常微小。由于本文中没有涉及两者间的细小差别，本文中这两个名字等价。</p>
+<p>我们从各式各样的文章中得知，SSL可以用于保密的传输，这样我们与web server之间传输的消息便是“安全的”。而这种“安全”究竟是怎么实现的，最终有能实现多大程度的保密？本文希望能用通俗的语言阐明其实现原理。</p></blockquote>
+<h3>2. 整体结构概览</h3>
+<blockquote><p>SSL是一个介于HTTP协议与TCP之间的一个可选层，其位置大致如下：</p>
+<p>－－－－－－－－－<br>
+| HTTP |<br>
+－－－－－－－－－<br>
+| SSL |<br>
+－－－－－－－－－<br>
+| TCP |<br>
+－－－－－－－－－<br>
+| IP |<br>
+－－－－－－－－－</p>
+<p>如果利用SSL协议来访问网页，其步骤如下：<br>
+用户：在浏览器的地址栏里输入https://www.sslserver.com<br>
+HTTP层：将用户需求翻译成HTTP请求，如：<br>
+GET /index.htm HTTP/1.1<br>
+Host www.sslserver.com</p>
+<p>SSL层: 借助下层协议的的信道安全的协商出一份加密密钥，并用此密钥来加密HTTP请求。<br>
+TCP层：与web server的443端口建立连接，传递SSL处理后的数据。</p>
+<p>接收端与此过程相反。SSL在TCP之上建立了一个加密通道，通过这一层的数据经过了加密，因此达到保密的效果。</p>
+<p>SSL协议分为两部分：Handshake Protocol和Record Protocol。其中Handshake Protocol用来协商密钥，协议的大部分内容就是通信双方如何利用它来安全的协商出一份密钥。 Record Protocol则定义了传输的格式。</p></blockquote>
+<h3>3. 需要的加密方面的基础知识</h3>
+<blockquote><p>了解SSL原理需要一点点加密的概念，这里把需要的概念做一下简单阐述：</p>
+<p>加密一般分为三类，对称加密，非对称加密及单向散列函数。<br>
+<strong>对称加密：</strong><br>
+又分分组密码和序列密码。<br>
+分组密码是将明文按一定的位长分组，明文组经过加密运算得到密文组，密文组经过解密运算（加密运算的逆运算），还原成明文组。<br>
+序列密码是指利用少量的密钥（制乱元素）通过某种复杂的运算（密码算法）产生大量的伪随机位流，用于对明文位流的加密。<br>
+解密是指用同样的密钥和密码算法及与加密相同的伪随机位流，用以还原明文位流。</p>
+<p>CBC(Cipher Block Chaining)模式这个词在分组密码中经常会用到，它是指一个明文分组在被加密之前要与前一个的密文分组进行异或运算。当加密算法用于此模式的时候除密钥外，还需协商一个初始化向量（IV），这个IV没有实际意义，只是在第一次计算的时候需要用到而已。采用这种模式的话安全性会有所提高。</p>
+<p>分组密码的典型例子为DES，RC5，IDEA。<br>
+序列密码的典型例子为RC4。<br>
+<strong>非对称加密（公钥加密）：</strong><br>
+简单的说就是加密密钥与解密密钥不同，分私钥和公钥。这种方法大多用于密钥交换，RSA便是一个我们熟知的例子。还有一个常用的称作DH，它只能用于密钥交换，不能用来加密。<br>
+<strong>单向散列函数：</strong><br>
+由于信道本身的干扰和人为的破坏，接受到的信息可能与原来发出的信息不同，一个通用的办法就是加入校验码。单向散列函数便可用于此用途，一个典型的例子是我们熟知的MD5，它产生128位的摘要，在现实中用的更多的是安全散列算法（SHA），SHA的早期版本存在问题，目前用的实际是SHA-1，它可以产生160位的摘要，因此比128位散列更能有效抵抗穷举攻击。</p>
+<p>由于单向散列的算法都是公开的，所以其它人可以先改动原文，再生成另外一份摘要。解决这个问题的办法可以通过HMAC（RFC 2104），它包含了一个密钥，只有拥有相同密钥的人才能鉴别这个散列。</p></blockquote>
+<h3>4. 密钥协商过程</h3>
+<blockquote><p>由于非对称加密的速度比较慢，所以它一般用于密钥交换，双方通过公钥算法协商出一份密钥，然后通过对称加密来通信，当然，为了保证数据的完整性，在加密前要先经过HMAC的处理。</p>
+<p>SSL缺省只进行server端的认证，客户端的认证是可选的。以下是其流程图（摘自TLS协议）：</p>
+<p>Client                                                                                    Server</p>
+<p>ClientHello                             ——–&gt;<br>
+ServerHello<br>
+Certificate*<br>
+ServerKeyExchange*<br>
+CertificateRequest*<br>
+&lt;——–                    ServerHelloDone<br>
+Certificate*<br>
+ClientKeyExchange<br>
+CertificateVerify*<br>
+[ChangeCipherSpec]<br>
+Finished                                 ——–&gt;<br>
+[ChangeCipherSpec]<br>
+&lt;——–                                   Finished<br>
+Application Data                   &lt;——-&gt;                    Application Data</p>
+<p>简单的说便是：SSL客户端（也是TCP的客户端）在TCP链接建立之后，发出一个ClientHello来发起握手，这个消息里面包含了自己可实现的算法列表和其它一些需要的消息，SSL的服务器端会回应一个ServerHello，这里面确定了这次通信所需要的算法，然后发过去自己的证书（里面包含了身份和自己的公钥）。Client在收到这个消息后会生成一个秘密消息，用SSL服务器的公钥加密后传过去，SSL服务器端用自己的私钥解密后，会话密钥协商成功，双方可以用同一份会话密钥来通信了。</p></blockquote>
+<h3>5. 密钥协商的形象化比喻</h3>
+<blockquote><p>如果上面的说明不够清晰，这里我们用个形象的比喻，我们假设A与B通信，A是SSL客户端，B是SSL服务器端，加密后的消息放在方括号[]里，以突出明文消息的区别。双方的处理动作的说明用圆括号（）括起。</p>
+<p>A：我想和你安全的通话，我这里的对称加密算法有DES和RC5，密钥交换算法有RSA和DH，摘要算法有MD5和SHA。</p>
+<p>B：我们用DES－RSA－SHA这对组合好了。<br>
+这是我的证书，里面有我的名字和公钥，你拿去验证一下我的身份（把证书发给A）。<br>
+目前没有别的可说的了。</p>
+<p>A：（查看证书上B的名字是否无误，并通过手头早已有的CA的证书验证了B的证书的真实性，如果其中一项有误，发出警告并断开连接，这一步保证了B的公钥的真实性）<br>
+（产生一份秘密消息，这份秘密消息处理后将用作加密密钥，加密初始化向量和hmac的密钥。将这份秘密消息——协议中称为 per_master_secret——用B的公钥加密，封装成称作ClientKeyExchange的消息。由于用了B的公钥，保证了第三方无法窃听）<br>
+我生成了一份秘密消息，并用你的公钥加密了，给你（把ClientKeyExchange发给B）<br>
+注意，下面我就要用加密的办法给你发消息了！<br>
+（将秘密消息进行处理，生成加密密钥，加密初始化向量和hmac的密钥）<br>
+[我说完了]</p>
+<p>B：（用自己的私钥将ClientKeyExchange中的秘密消息解密出来，然后将秘密消息进行处理，生成加密密钥，加密初始化向量和hmac的密钥，这时双方已经安全的协商出一套加密办法了）<br>
+注意，我也要开始用加密的办法给你发消息了！<br>
+[我说完了]</p>
+<p>A: [我的秘密是...]</p>
+<p>B: [其它人不会听到的...]</p></blockquote>
+<h3>6. 加密的计算</h3>
+<blockquote><p>上一步讲了密钥的协商，但是还没有阐明是如何利用加密密钥，加密初始化向量和hmac的密钥来加密消息的。其实其过程不过如此：<br>
+1 借助hmac的密钥，对明文的消息做安全的摘要处理，然后和明文放到一起。<br>
+2 借助加密密钥，加密初始化向量加密上面的消息。</p></blockquote>
+<h3>7. 安全性</h3>
+<blockquote><p>SecurityPortal在2000年底有一份文章《The End of SSL and SSH?》激起了很多的讨论， 目前也有一些成熟的工具如dsniff可以通过man in the middle攻击来截获https的消息。</p>
+<p>从上面的原理可知，SSL的结构是严谨的，问题一般出现在实际不严谨的应用中。常见的攻击就是middle in the middle攻击，它是指在A和B通信的同时，有第三方C处于信道的中间，可以完全听到A与B通信的消息，并可拦截，替换和添加这些消息。</p>
+<p>1 SSL可以允许多种密钥交换算法，而有些算法，如DH，没有证书的概念，这样A便无法验证B的公钥和身份的真实性，从而C可以轻易的冒充，用自己的密钥与双方通信，从而窃听到别人谈话的内容。而为了防止middle in the middle攻击，应该采用有证书的密钥交换算法。<br>
+2 有了证书以后，如果C用自己的证书替换掉原有的证书之后，A的浏览器会弹出一个警告框进行警告，但又有多少人会注意这个警告呢？<br>
+3 由于美国密码出口的限制，IE，netscape等浏览器所支持的加密强度是很弱的，如果只采用浏览器自带的加密功能的话，理论上存在被破解可能。</p></blockquote>
+<h3>8. 关于证书</h3>
+<blockquote><p>注意，如果对于一般的应用，管理员只需生成“证书请求”（后缀大多为.csr），它包含你的名字和公钥，然后把这份请求交给诸如verisign等有CA 服务公司（当然，连同几百美金），你的证书请求经验证后，CA用它的私钥签名，形成正式的证书发还给你。管理员再在web server上导入这个证书就行了。如果你不想花那笔钱，或者想了解一下原理，可以自己做CA。从ca的角度讲，你需要CA的私钥和公钥。从想要证书的服务器角度将，需要把服务器的证书请求交给CA.</p>
+<p>如果你要自己做CA，别忘了客户端需要导入CA的证书（CA的证书是自签名的，导入它意味着你“信任”这个CA签署的证书）。而商业CA的一般不用，因为它们已经内置在你的浏览器中了。</p></blockquote>
+
+		
+	</div>
+
+	</div>
+
+	
+	</div>
+
+<div id="sidebar">
+
+<div id="sidebar-bottom"> 
+			<div class="textwidget"><a title="即刻联系aiTrust进行ssl证书、代码签名证书购买咨询" href="http://www.aitrust.com/about/contact/">
+<img width="222px" alt="telephone" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/call.png">
+</a></div>
+		 </div>   
+ 
+<div id="sidebar-top"> 
+<h3>总部&amp;分支机构</h3>			<div class="textwidget"><div class="title2">
+<a title="aiTrust数字证书安全专家-大连,北京,上海" href="http://www.aitrust.com/about/about-aitrust/branch/">&nbsp;大连&nbsp;&nbsp;-&nbsp;北京&nbsp;-&nbsp;&nbsp;上海</a>
+</div></div>
+		</div>
+
+<div id="sidebar-middle" class="clearfloat"> 
+<div id="sidebar-left">
+<h3>快捷导航</h3>			<div class="textwidget"><div class="title1">
+<a title="ssl证书快速购买" href="http://www.aitrust.com/products/price/">快速购买</a>
+</div>
+<div class="title1">
+<a href="http://www.aitrust.com/support/knowledge/csr/">CSR采集</a>
+</div>
+<div class="title1">
+<a href="http://www.aitrust.com/support/knowledge/install/">SSL证书安装</a>
+</div>
+<div class="title1">
+<a href="http://www.aitrust.com/support/service-pay/">付款&amp;保障</a>
+</div>
+<div class="title1">
+<a href="http://www.aitrust.com/support/knowledge/backup/">证书备份</a>
+</div>
+<div class="title1">
+<a href="http://www.aitrust.com/support/knowledge/signature/">签章部署</a>
+</div></div>
+		 
+<ul></ul>
+</div>  
+
+<div id="sidebar-right">
+<h3>新闻中心</h3>			<div class="textwidget">	<ul style="list-style:none;overflow:hidden;">     
+		 <li class="content">  
+ <img src="./SSL TLS 原理 aiTrust数字证书安全专家_files/sub.png" alt=" aiTrust数字证书专家-新闻">
+             <a href="http://www.aitrust.com/verisign-2048-bit-root-migration/">
+                 VeriSign根证书密钥升级2048位
+             </a>
+             <br>
+			 <img src="./SSL TLS 原理 aiTrust数字证书安全专家_files/sub.png" alt=" aiTrust数字证书专家-新闻">
+             <a href="http://www.aitrust.com/secure-ssl/">
+                 使用VeriSign证书是否涉安全问题?
+             </a>
+           <br>		 
+			 <img src="./SSL TLS 原理 aiTrust数字证书安全专家_files/sub.png" alt=" aiTrust数字证书专家-新闻">
+             <a href="http://www.aitrust.com/intranet-security/">
+                 从管理角度审视内网安全及部署
+             </a>
+             <br> 
+			 <img src="./SSL TLS 原理 aiTrust数字证书安全专家_files/sub.png" alt=" aiTrust数字证书专家-新闻">
+             <a href="http://www.aitrust.com/secure/">
+                 服务器证书成网站安全象征
+             </a>
+<br>
+             <a title="更多aiTrust新闻" href="http://www.aitrust.com/category/news/">
+               <h4 style="float:right;">  更多新闻&gt;&gt;      </h4>              
+<table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose VeriSign Trust Seal to promote trust online with consumers.">
+<tbody><tr>
+<td width="135" align="center" valign="top"><script type="text/javascript" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/getseal"></script><br>
+<a href="http://www.aitrust.com/" target="_blank" style="color:#000000; text-decoration:none; font:bold 7px verdana,sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;">已经过VeriSign验证</a></td>
+</tr>
+</tbody></table>
+
+		     </a>                      
+		 </li>
+		 </ul></div>
+		</div> 
+
+</div>
+</div></div>  
+
+<div id="front-popular">
+
+<div>
+<a title="联系aiTrust数字证书安全专家" href="http://www.aitrust.com/about/contact/">联系我们</a>
+|
+<a title="aiTrust-法律公告" href="http://www.aitrust.com/about/about-aitrust/law/">法律公告</a>
+|
+<a title="aiTrust-数字证书-隐私声明" href="http://www.aitrust.com/about/about-aitrust/privacy/">隐私声明</a>
+</div>
+</div>
+
+<div id="footer"> Copyright © 1996 - 2010 · 友信 · aiTrust.com ·版权所有 · <a title="备案系统网站" href="http://www.miibeian.gov.cn/" target="_blank">辽ICP备10000677号</a>
+</div>
+
+<script type="text/javascript" defer="defer">(function(floatDivId, options) { var floatDiv = document.getElementById(floatDivId); if (!floatDiv) { return; } if (document.body != floatDiv.parentNode) { floatDiv.parentNode.removeChild(floatDiv); document.body.appendChild(floatDiv); } function getClientSize() { var myWidth = 0, myHeight = 0; if (typeof (window.innerWidth) == 'number') { myWidth = window.innerWidth; myHeight = window.innerHeight; } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) { myWidth = document.documentElement.clientWidth; myHeight = document.documentElement.clientHeight; } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) { myWidth = document.body.clientWidth; myHeight = document.body.clientHeight; } return { width: myWidth, height: myHeight }; } function getImageSize() { var img = document.getElementById('comm100_ButtonImage'); return { width: img.width, height: img.height }; } function getDivLocation(div) { var left = parseInt(div.style.left.replace(/^(d+).*?$/, '$1')); var top = parseInt(div.style.top.replace(/^(d+).*?$/, '$1')); return { x: left, y: top }; } function addWindowEventListerner(event, func) { if (window.addEventListener) { window.addEventListener(event, func, false); } else if (window.attachEvent) { window.attachEvent('on' + event, func); } } function initLocation() { var clientSize = getClientSize(); var imageSize = getImageSize(); var x = 0, y = 0; if (options.left != undefined) { x = options.left; } else if (options.right != undefined) { x = clientSize.width - imageSize.width - options.right; } else if (options.pleft != undefined) { x = (clientSize.width - imageSize.width) * options.pleft * 0.01; } else if (options.pright != undefined) { x = (clientSize.width - imageSize.width) - (clientSize.width - imageSize.width) * options.pright * 0.01; } if (options.top != undefined) { y = options.top; } else if (options.bottom != undefined) { y = clientSize.height - imageSize.height - options.bottom; } else if (options.ptop != undefined) { y = (clientSize.height - imageSize.height) * options.ptop * 0.01; } else if (options.pbottom != undefined) { y = (clientSize.height - imageSize.height) - (clientSize.height - imageSize.height) * options.pbottom * 0.01; } if (x > 0) x = Math.ceil(x); else x = Math.floor(x); if (y > 0) dy = Math.ceil(y); else y = Math.floor(y); floatDiv.style.zIndex = 65535; floatDiv.style.position = 'absolute'; floatDiv.style.left = x + 'px'; floatDiv.style.top = y + 'px'; } var lastTimerID = 0; function initFloatChatButton() { initLocation(); var lastScrollY = 0; var lastScrollX = 0; function moveDiv() { try { scrollX = document.body.scrollLeft || document.documentElement.scrollLeft; scrollY = document.body.scrollTop || document.documentElement.scrollTop; dx = 0.5 * (scrollX - lastScrollX); dy = 0.5 * (scrollY - lastScrollY); if (dx > 0) dx = Math.ceil(dx); else dx = Math.floor(dx); if (dy > 0) dy = Math.ceil(dy); else dy = Math.floor(dy); var location = getDivLocation(floatDiv); floatDiv.style.left = (location.x + dx) + 'px'; floatDiv.style.top = (location.y + dy) + 'px'; lastScrollX = lastScrollX + dx; lastScrollY = lastScrollY + dy; } catch (err) { if (lastTimerID != 0) clearInterval(lastTimerID); alert(err); } } if (lastTimerID != 0) clearInterval(lastTimerID); lastTimerID = setInterval(moveDiv, 100); } addWindowEventListerner('resize', initFloatChatButton); addWindowEventListerner('load', initFloatChatButton); })('comm100_ChatButtonCode',{pleft:1,ptop:20});</script>
+<script type="text/javascript" src="./SSL TLS 原理 aiTrust数字证书安全专家_files/tongji.js"></script><img src="./SSL TLS 原理 aiTrust数字证书安全专家_files/tongji.do" border="0" width="1" height="1"><noscript>&lt;a href="http://www.linezing.com"&gt;&lt;img src="http://img.tongji.linezing.com/1842599/tongji.gif"/&gt;&lt;/a&gt;</noscript>
+
+
+</body></html>

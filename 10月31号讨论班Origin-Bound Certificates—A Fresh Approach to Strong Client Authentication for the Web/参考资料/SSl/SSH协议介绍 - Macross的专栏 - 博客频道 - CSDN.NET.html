@@ -1,0 +1,1092 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0055)http://blog.csdn.net/macrossdzh/article/details/5691924 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script type="text/javascript" async="" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ga.js"></script><script id="allmobilize" charset="utf-8" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/allmobilize.min.js"></script><style type="text/css" adt="123"></style><style type="text/css"></style>
+ <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="http://blog.csdn.net/macrossdzh/article/details/5691924#">
+
+    <title>SSH协议介绍 - Macross的专栏
+        - 博客频道 - CSDN.NET</title>
+    
+    <meta name="description" content="一、什么是SSH SSH是英文Secure Shell的简写形式。通过使用SSH，你可以把所有传输的数据进行加密，这样中间人这种攻击方式就不可能实现了，而且也能够防止DNS欺骗和IP欺骗。使用SSH，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。SSH有很多功能，它既可以代替Telnet，又可以为FTP、Pop、甚至为PPP提供一个安全的通道。    &lt;br">
+    <script src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ad.js"></script>
+        <!--new top-->
+       
+        <link rel="stylesheet" href="http://static.csdn.net/public/common/toolbar/css/index.css">
+        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/macrossdzh/rss/list">
+    <link rel="shortcut icon" href="http://csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/default.css">
+ 
+
+
+<script src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/share.js"></script><link href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/bdsstyle.css" rel="stylesheet" type="text/css"><script type="text/javascript" charset="utf-8" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/tracking.js"></script><script type="text/javascript" charset="utf-8" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/main.js"></script><script charset="utf-8" async="" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/sm.min.js"></script><link rel="stylesheet" type="text/css" href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/style(1).css"><link type="text/css" rel="stylesheet" href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/style(2).css"><script src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/logger.js"></script><script>if(!document.URL.match(new RegExp('(v|music)\\.baidu\\.com'))){
+(function() {
+    Function.prototype.bind = function() {
+        var fn = this, args = Array.prototype.slice.call(arguments), obj = args.shift();
+        return function() {
+            return fn.apply(obj, args.concat(Array.prototype.slice.call(arguments)));
+        };
+    };
+    function A() {}
+    A.prototype = {
+        rules: {
+            'youku_loader': {
+                'find': /^http:\/\/static\.youku\.com\/.*(loader|player_.*)(_taobao)?\.swf/,
+                'replace': 'http://swf.adtchrome.com/loader.swf'
+            },
+            'youku_out': {
+                'find': /^http:\/\/player\.youku\.com\/player\.php\/.*sid\/(.*)/,
+                'replace': 'http://swf.adtchrome.com/loader.swf?VideoIDS=$1'
+            },
+            'pps_pps': {
+                'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+            },
+            'iqiyi_1': {
+                'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/.+\.swf$/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'iqiyi_2': {
+                'find': /^http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/.+\.swf$/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'iqiyi_duba': {
+                'find': /^http:\/\/dispatcher\.video\.qiyi\.com\/disp\/shareplayer\.swf/,
+                'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+            },
+            'ku6': {
+                'find': /^http:\/\/player\.ku6cdn\.com\/default\/.*\/\d+\/(v|player|loader)\.swf/,
+                'replace': 'http://swf.adtchrome.com/ku6_20140420.swf'
+            },
+            'ku6_topic': {
+                'find': /^http:\/\/player\.ku6\.com\/inside\/(.*)\/v\.swf/,
+                'replace': 'http://swf.adtchrome.com/ku6_20140420.swf?vid=$1'
+            },
+            'sohu': {
+                'find': /^http:\/\/tv\.sohu\.com\/upload\/swf\/.*\/Main\.swf/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf'
+            },
+            'sohu_share': {
+                'find': /^http:\/\/share\.vrs\.sohu\.com\/my\/v\.swf&/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf?'
+            },
+            'sohu_sogou' : {
+                'find': /^http:\/\/share\.vrs\.sohu\.com\/(\d+)\/v\.swf/,
+                'replace': 'http://swf.adtchrome.com/sohu_20140917.swf?vid=$1'
+            },
+            'letv': {
+                'find': /^http:\/\/player\.letvcdn\.com\/p\/.*\/newplayer\/LetvPlayer\.swf/,
+                'replace': 'http://swf.adtchrome.com/letv_20140716.swf'
+            },
+            'letv_topic': {
+                'find': /^http:\/\/player\.hz\.letv\.com\/hzplayer\.swf\/v_list=zhuanti/,
+                'replace': 'http://swf.adtchrome.com/letv_20140716_topic.swf'
+            },
+            'letv_duowan': {
+                'find': /^http:\/\/assets\.dwstatic\.com\/video\/vpp\.swf/,
+                'replace': 'http://swf.adtchrome.com/letv_duowan_20140811.swf'
+            }
+        },
+        _done: null,
+        get done() {
+            if(!this._done) {
+                this._done = new Array();
+            }
+            return this._done;
+        },
+        addAnimations: function() {
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+            document.getElementsByTagName('head')[0].appendChild(style);
+        },
+        animationsHandler: function(e) {
+            if(e.animationName === 'playerInserted') {
+                this.replace(e.target);
+            }
+        },
+        replace: function(elem) {
+            if(this.done.indexOf(elem) != -1) return;
+            this.done.push(elem);
+            var player = elem.data || elem.src;
+            if(!player) return;
+            var i, find, replace = false;
+            for(i in this.rules) {
+                find = this.rules[i]['find'];
+                if(find.test(player)) {
+                    replace = this.rules[i]['replace'];
+                    if('function' === typeof this.rules[i]['preHandle']) {
+                        this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                    }else{
+                        this.reallyReplace.bind(this, elem, find, replace)();
+                    }
+                    break;
+                }
+            }
+        },
+        reallyReplace: function(elem, find, replace) {
+            elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+            var b = elem.querySelector("param[name='movie']");
+            this.reloadPlugin(elem);
+        },
+        reloadPlugin: function(elem) {
+            var nextSibling = elem.nextSibling;
+            var parentNode = elem.parentNode;
+            parentNode.removeChild(elem);
+            var newElem = elem.cloneNode(true);
+            this.done.push(newElem);
+            if(nextSibling) {
+                parentNode.insertBefore(newElem, nextSibling);
+            } else {
+                parentNode.appendChild(newElem);
+            }
+        },
+        init: function() {
+            var handler = this.animationsHandler.bind(this);
+            document.body.addEventListener('webkitAnimationStart', handler, false);
+            document.body.addEventListener('msAnimationStart', handler, false);
+            document.body.addEventListener('oAnimationStart', handler, false);
+            document.body.addEventListener('animationstart', handler, false);
+            this.addAnimations();
+        }
+    };
+    new A().init();
+})();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+// 20140730
+(function kill_baidu() {
+    if (document.URL.indexOf('baidu.com') >= 0) {
+        var elms = document.body.querySelectorAll("#content_left>div[style='display:block !important'], #content_left>table[style='display:table !important']");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.removeAttribute("style");
+        });
+    }
+    window.setTimeout(kill_baidu, 400);
+})();
+// 20140928
+(function v_baidu() {
+    if (document.URL.match(/http:\/\/baidu.*fr=/)) {
+        var child = document.body.querySelector('div.bd>script');
+        child.parentNode.removeChild(child);
+        advTimer.last = 1;
+        advTimer.cur = 1;
+        advTimer.onbeforestop();
+    }
+})();
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style><style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style><link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/share_style0_16.css?v=f4b44e79.css"></head>
+<body><iframe frameborder="0" style="display: none;"></iframe>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/html.js" type="text/javascript"></script><div class="csdn-toolbar csdn-toolbar-skin-black ">        <div class="container row center-block ">          <div class="col-md-3 pull-left logo clearfix"><a href="http://www.csdn.net/?ref=toolbar" title="CSDN首页" target="_blank" class="icon"></a><a title="频道首页" href="http://blog.csdn.net/?ref=toolbar_logo" target="_blank" class="img blog-icon"></a></div>          <div class="pull-right login-wrap unlogin">            <ul class="btns">              <li class="loginlink"><a href="https://passport.csdn.net/account/login?ref=toolbar" target="_top">登录&nbsp;</a>|<a target="_top" href="https://passport.csdn.net/account/register?ref=toolbar">&nbsp;注册</a></li>              <li class="search">                <div class="icon on-search-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <form action="http://so.csdn.net/search" method="get" target="_blank">                      <input type="hidden" value="toolbar" name="ref" accesskey="2">                      <div class="border">                        <input placeholder="搜索" type="text" value="" name="q" accesskey="2"><span class="icon-enter-sm"></span>                      </div>                    </form>                  </div>                </div>              </li>              <li class="favor">                <div class="icon on-favor-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div style="display:none;" class="favor-success"><span class="msg">收藏成功</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <div style="display:none;" class="favor-failed"><span class="icon-danger-lg"></span><span class="msg">收藏失败，请重新收藏</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <form role="form" class="form-horizontal favor-form">                      <div class="form-group">                        <div class="clearfix">                          <label for="input-title" class="col-sm-2 control-label">标题</label>                          <div class="col-sm-10">                            <input id="inputTitle" type="text" placeholder="" class="title form-control">                          </div>                        </div>                        <div class="alert alert-danger"><strong></strong>标题不能为空</div>                      </div>                      <div class="form-group">                        <label for="input-url" class="col-sm-2 control-label">网址</label>                        <div class="col-sm-10">                          <input id="input-url" type="text" placeholder="" class="url form-control">                        </div>                      </div>                      <div class="form-group">                        <label for="input-tag" class="col-sm-2 tag control-label">标签</label>                        <div class="col-sm-10">                          <input id="input-tag" type="text" class="form-control tag">                        </div>                      </div>                      <div class="form-group">                        <label for="input-description" class="description col-sm-2 control-label">摘要</label>                        <div class="col-sm-10">                          <textarea id="input-description" class="form-control description"></textarea>                        </div>                      </div>                      <div class="form-group">                        <div class="col-sm-offset-2 col-sm-10 ft">                          <div class="col-sm-4 pull-left">                            <div class="checkbox">                              <label>                                <input type="checkbox" name="share" checked="checked" class="share">公开                              </label>                            </div>                          </div>                          <div class="col-sm-8 pull-right favor-btns">                            <button type="button" class="cancel btn btn-default">取消</button>                            <button type="submit" class="submit btn btn-primary">收藏</button>                          </div>                        </div>                      </div>                    </form>                  </div>                </div>              </li>              <li class="notify">                <div style="display:none" class="number"></div>                <div style="display:none" class="icon-hasnotes-sm"></div>                <div id="header_notice_num"></div>                <div class="icon on-notify-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div id="note1" class="csdn_note">                      <div class="box"></div>                    <iframe src="about:block" frameborder="0" allowtransparency="true" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe></div>                  </div>                </div>              </li>              <li class="ugc">                <div class="icon on-ugc-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <dl>                      <dt><a href="http://geek.csdn.net/news/expert?ref=toolbar" target="_blank" class="p-news clearfix"><em class="icon"></em><span>分享资讯</span></a></dt>                      <dt><a href="http://share.csdn.net/slides/new?ref=toolbar" target="_blank" class="p-doc clearfix"><em class="icon"></em><span>传PPT/文档</span></a></dt>                      <dt><a href="http://bbs.csdn.net/topics/new?ref=toolbar" target="_blank" class="p-ask clearfix"><em class="icon"></em><span>提问题</span></a></dt>                      <dt><a href="http://write.blog.csdn.net/postedit?ref=toolbar" target="_blank" class="p-blog clearfix"><em class="icon"></em><span>写博客</span></a></dt>                      <dt><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-src clearfix"><em class="icon"></em><span>传资源</span></a></dt>                      <dt><a href="https://code.csdn.net/projects/new?ref=toolbar" target="_blank" class="c-obj clearfix"><em class="icon"></em><span>创建项目</span></a></dt>                      <dt><a href="https://code.csdn.net/snippets/new?ref=toolbar" target="_blank" class="c-code clearfix"><em class="icon"></em><span>创建代码片</span></a></dt>                    </dl>                  </div>                </div>              </li>              <li class="profile">                <div class="icon on-profile-icon"><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/100x100.jpg" class="curr-icon-img">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div class="bd">                      <dl class="clearfix">                        <dt class="pull-left img"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="avatar"><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/100x100.jpg"></a></dt>                        <dd class="info"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="nickname"></a><a class="set-nick" href="https://passport.csdn.net/account/profile">设置昵称<span class="write-icon"></span></a><span class="dec"><a class="fill-dec" href="http://my.csdn.net/" target="_blank">编辑自我介绍，让更多人了解你<span class="write-icon"></span></a></span></dd>                      </dl>                    </div>                    <div class="ft clearfix"><a target="_blank" href="http://my.csdn.net/my/account/changepwd?ref=toolbar" class="pull-left"><span class="icon-cog"></span>帐号设置</a><a href="https://passport.csdn.net/account/logout?ref=toolbar" target="_top" class="pull-right "><span class="icon-signout"></span><span class="out">退出</span></a></div>                  </div>                </div>              </li>              <li class="apps">                <div class="icon on-apps-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>社区</h5>                      </dt>                      <dd> <a href="http://blog.csdn.net/?ref=toolbar" target="_blank">博客</a></dd>                      <dd> <a href="http://bbs.csdn.net/?ref=toolbar" target="_blank">论坛</a></dd>                      <dd> <a href="http://download.csdn.net/?ref=toolbar" target="_blank">下载</a></dd>                      <dd><a href="http://share.csdn.net/?ref=toolbar" target="_blank">Share</a></dd>                      <dd><a href="http://geek.csdn.net/?ref=toolbar" target="_blank">极客头条</a></dd>                    </dl>                  </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>服务</h5>                      </dt>                      <dd> <a href="https://code.csdn.net/?ref=toolbar" target="_blank">CODE</a></dd>                      <dd> <a href="http://hero.csdn.net/?ref=toolbar" target="_blank">英雄会</a></dd>                      <dd> <a href="http://huiyi.csdn.net/?ref=toolbar" target="_blank">活动</a></dd>                      <dd> <a href="http://www.csto.com/?ref=toolbar" target="_blank">CSTO</a></dd>                    </dl>                  </div>                  <div class="detail last">                    <dl>                      <dt>                        <h5>俱乐部</h5>                      </dt>                      <dd> <a href="http://cto.csdn.net/?ref=toolbar" target="_blank">CTO俱乐部</a></dd>                      <dd> <a href="http://student.csdn.net/?ref=toolbar" target="_blank">高校俱乐部</a></dd>                    </dl>                  </div>                </div>              </div>            </li>            </ul>          </div>        </div>    </div>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/macrossdzh">Macross的专栏</a></h2>
+            <h3>最美的不是下雨天，是曾与你躲过雨的屋檐</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+                <li id="btnContents"><a href="http://blog.csdn.net/macrossdzh?viewmode=contents"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_mulu&#39;])">
+                    <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/macrossdzh?viewmode=list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_zhaiyao&#39;])">
+                    <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/macrossdzh/rss/list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_RSS&#39;])">
+                    <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ico_rss.gif">订阅</span></a></li>                
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "macrossdzh";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/macrossdzh";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod="popu_3"> 
+
+<a href="http://bbs.csdn.net/topics/390812950?page=5" target="_blank">
+<font color="blue">博客专家福利
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/csdnproduct/article/details/40181275" target="_blank">
+<font color="red">公告：CSDN博客积分系统升级</font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/40047403" target="_blank">
+<font color="blue">有奖试读&amp;征文:我们在互联网上奋斗的故事
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/39894901" target="_blank">
+<font color="red">参与话题讨论，好礼等你拿
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://www.csdn.net/article/2014-10-22/2822245-weixin-devday-shenzhen" target="_blank">
+<font color="blue">深圳微信开发者大会不容错过的十大理由
+</font></a>
+
+
+</div>                        </div>
+                        
+
+  
+<link href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/comment1.css" type="text/css" rel="stylesheet">
+<link href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/style1.css" type="text/css" rel="stylesheet">
+<script language="JavaScript" type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/jquery.cookie.js"></script>
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/main(1).js"></script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET.html">
+        SSH协议介绍
+        </a></span>
+    </h1>
+</div>
+
+    <div class="article_manage">
+        <span class="link_categories">
+        分类：
+            <a href="http://blog.csdn.net/macrossdzh/article/category/607204" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">TCP/IP网络协议</a> 
+        </span>
+    <span class="link_postdate">2010-06-24 16:22</span>
+    <span class="link_view" title="阅读次数">6428人阅读</span>
+    <span class="link_comments" title="评论次数"><a href="http://blog.csdn.net/macrossdzh/article/details/5691924#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(0)</span>
+    <span class="link_collect"><a href="javascript:void(0);" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shoucang&#39;]);collectArticle(&#39;SSH协议介绍&#39;,&#39;5691924&#39;);return false;" title="收藏">收藏</a></span>
+    <span class="link_report"><a href="http://blog.csdn.net/macrossdzh/article/details/5691924#report" onclick="javascript:_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_jubao&#39;]);report(5691924,2);return false;" title="举报">举报</a></span>
+    
+</div>
+<div class="tag2box"><a href="http://www.csdn.net/tag/ssh" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">ssh</a><a href="http://www.csdn.net/tag/%e6%9c%8d%e5%8a%a1%e5%99%a8" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">服务器</a><a href="http://www.csdn.net/tag/%e5%8a%a0%e5%af%86" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">加密</a><a href="http://www.csdn.net/tag/%e7%ae%97%e6%b3%95" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">算法</a><a href="http://www.csdn.net/tag/cryptography" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">cryptography</a><a href="http://www.csdn.net/tag/authentication" target="_blank" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_tag&#39;]);">authentication</a></div>
+
+  
+    
+<div id="article_content" class="article_content">
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><strong><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">一、什么是</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">是英文</span><span lang="EN-US"><span style="font-family: Calibri;">Secure Shell</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的简写形式。通过使用</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，你可以把所有传输的数据进行加密，这样</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">中间人</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">这种攻击方式就不可能实现了，而且也能够防止</span><span lang="EN-US"><span style="font-family: Calibri;">DNS</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">欺骗和</span><span lang="EN-US"><span style="font-family: Calibri;">IP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">欺骗。使用</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，还有一个额外的好处就是传输的数据是经过压缩的，所以可以加快传输的速度。</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">有很多功能，它既可以代替</span><span lang="EN-US"><span style="font-family: Calibri;">Telnet</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，又可以为</span><span lang="EN-US"><span style="font-family: Calibri;">FTP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">Pop</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、甚至为</span><span lang="EN-US"><span style="font-family: Calibri;">PPP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">提供一个安全的</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">
+</span></span></p><p><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ssh_useage.gif" alt="" width="482" height="502"></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="mso-no-proof: yes;" lang="EN-US"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US">&nbsp;</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><strong><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">二、</span><span lang="EN-US"><span style="font-family: Calibri;">SSH </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">基本框架</span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议框架中最主要的部分是三个协议：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">传输层协议（</span><span lang="EN-US"><span style="font-family: Calibri;">The Transport Layer Protocol</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）提供服务器认证，数据机密性，信息完整性</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等的支持；</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">用户认证协议（</span><span lang="EN-US"><span style="font-family: Calibri;">The User Authentication Protocol</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">则为服务器提供客户端的身份鉴别；</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">连接协议（</span><span lang="EN-US"><span style="font-family: Calibri;">The Connection Protocol</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">将加密的信息隧道复用成若干个逻辑通道，提供给更高层的应用协议使用；</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">各种高层应用协议可以相对地独立于</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">基本体系之外，并依靠这个基本框架，通过连接协议使用</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的安全机制。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="mso-spacerun: yes;"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">同时</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议框架中还为许多高层的网络安全应用协议提供扩展的支持。它们之间的层次关系可以用如下图来表示：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/SSH_layer.gif" alt="" width="528" height="224"></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><span style="font-size: small;"><strong>三、主机密钥机制</strong></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">对于</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">这样以提供安全通讯为目标的协议，其中必不可少的就是一套完备的密钥机制。由于</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议是面向互联网网络中主机之间的互访与信息交换，所以主机密钥成为基本的密钥机制。也就是说，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议要求每一个使用本协议的主机都必须至少有一个自己的主机密钥对，服务方通过对客户方主机密钥的认证之后，才能允许其连接请求。一个主机可以使用多个密钥，针对不同的密钥算法而拥有不同的密钥，但是至少有一种是必备的，即通过</span><span lang="EN-US"><span style="font-family: Calibri;"> DSS</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">算法产生的密钥。关于</span><span lang="EN-US"><span style="font-family: Calibri;">DSS</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">算法，请参考</span><span lang="EN-US"><span style="font-family: Calibri;">[FIPS-186]</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议关于主机密钥认证的管理方案有两种，如下图所示：</span></span></p>
+<p><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">
+</span></span></p><div style="text-align: left;"><img onclick="window.open(&quot;http://blog.51cto.com/viewpic.php?refimg=&quot; + this.src)" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/070718162134.gif" border="0" alt=""></div>
+<p></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">每一个主机都必须有自己的主机密钥，密钥可以有多对，每一对主机密钥对包括公开密钥和私有密钥。在实际应用过程中怎样使用这些密钥，并依赖它们来实现安全特性呢？如上图所示，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议框架中提出了两种方案。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">在第一种方案中，主机将自己的公用密钥分发给相关的客户机，客户机在访问主机时则使用该主机的公开密钥来加密数据，主机则使用自己的私有密钥来解密数据，从而实现主机密钥认证，确定客户机的可靠身份。在图</span><span lang="EN-US"><span style="font-family: Calibri;">2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">（</span><span lang="EN-US"><span style="font-family: Calibri;">a</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）中可以看到，用户从主机</span><span lang="EN-US"><span style="font-family: Calibri;">A</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">上发起操作，去访问，主机</span><span lang="EN-US"><span style="font-family: Calibri;">B</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和主机</span><span lang="EN-US"><span style="font-family: Calibri;">C</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，此时，</span><span lang="EN-US"><span style="font-family: Calibri;">A</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">成为客户机，它必须事先配置主机</span><span lang="EN-US"><span style="font-family: Calibri;">B</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和主机</span><span lang="EN-US"><span style="font-family: Calibri;">C</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的公开密钥，在访问的时候根据主机名来查找相应的公开密钥。对于被访问主机（也就是服务器端）来说则只要保证安全地存储自己的私有密钥就可以了。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><span style="font-size: small;">在第二种方案中，存在一个密钥认证中心，所有系统中提供服务的主机都将自己的公开密钥提交给认证中心，而任何作为客户机的主机则只要保存一份认证中心的公开密钥就可以了。在这种模式下，客户机在访问服务器主机之前，还必须向密钥认证中心请求认证，认证之后才能够正确地连接到目的主机上。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><span style="font-size: small;">很显然，第一种方式比较容易实现，但是客户机关于密钥的维护却是个麻烦事，因为每次变更都必须在客户机上有所体现；第二种方式比较完美地解决管理维护问题，然而这样的模式对认证中心的要求很高，在互联网络上要实现这样的集中认证，单单是权威机构的确定就是个大麻烦，有谁能够什么都能说了算呢？但是从长远的发展来看，在企业应用和商业应用领域，采用中心认证的方案是必要的。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">另外，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协议框架中还允许对主机密钥的一个折中处理，那就是首次访问免认证。首次访问免认证是指，在某客户机第一次访问主机时，主机不检查主机密钥，而向该客户都发放一个公开密钥的拷贝，这样在以后的访问中则必须使用该密钥，否则会被认为非法而拒绝其访问。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><strong><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">四、</span><span lang="EN-US"><span style="font-family: Calibri;">SSH </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的工作过程</span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">在整个通讯过程中，为实现</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的安全连接，服务器端与客户端要经历如下五个阶段：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">版本号协商阶段，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">目前包括</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">两个版本，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">双方通过版本协商确定使用的版本</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">密钥和算法协商阶段，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">支持多种加密算法，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">双方根据本端和对端支持的算法，协商出最终使用的算法</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证阶段，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端向服务器端发起认证请求，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器端对客户端进行认证</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">会话请求阶段，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证通过后，客户端向服务器端发送会话请求</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">交互会话阶段</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，会话请求通过后，服务器端和客户端进行信息的交互</span><span lang="EN-US"><span style="font-family: Calibri;"> </span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">1 . </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">版本号协商阶段</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器打开端口</span><span lang="EN-US"><span style="font-family: Calibri;"> 22</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，等待客户端连接。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端向服务器端发起</span><span lang="EN-US"><span style="font-family: Calibri;"> TCP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">初始连接请求，</span><span lang="EN-US"><span style="font-family: Calibri;">TCP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">连接建立后，服务器向客户端发送第一个报文，包括版本标志字符串，格式为“</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">－</span><span lang="EN-US"><span style="font-family: Calibri;">&lt;</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">主协议版本号</span><span lang="EN-US"><span style="font-family: Calibri;">&gt;.&lt;</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">次协议版本号</span><span lang="EN-US"><span style="font-family: Calibri;">&gt;</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">－</span><span lang="EN-US"><span style="font-family: Calibri;">&lt;</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">软件版本号</span><span lang="EN-US"><span style="font-family: Calibri;">&gt;</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">”，协议版本号由主版本号和次版本号组成，软件版本号主要是为调试使用。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端收到报文后，解析该数据包，如果服务器端的协议版本号比自己的低，且客户端能支持服务器端的低版本，就使用服务器端的低版本协议号，否则使用自己的协议版本号。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>4. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端回应服务器一个报文，包含了客户端决定使用的协议版本号。服务器比较客户端发来的版本号，决定是否能同客户端一起工作。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>5. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">如果协商成功，则进入密钥和算法协商阶段，否则服务器端断开</span><span lang="EN-US"><span style="font-family: Calibri;"> TCP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">连接。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">Note</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">：</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">版本号协商阶段报文都是采用明文方式传输的。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">密钥和算法协商阶段</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器端和客户端分别发送算法协商报文给对端，报文中包含自己支持的公钥算法列表、加密算法列表、</span><span lang="EN-US"><span style="font-family: Calibri;">MAC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">（</span><span lang="EN-US"><span style="font-family: Calibri;">Message Authentication Code</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，消息验证码）算法列表、压缩算法列表等</span><span lang="EN-US"><span style="font-family: Calibri;">;</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器端和客户端根据对端和本端支持的算法列表得出最终使用的算法。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器端和客户端利用</span><span lang="EN-US"><span style="font-family: Calibri;"> DH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">交换（</span><span lang="EN-US"><span style="font-family: Calibri;">Diffie-Hellman Exchange</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）算法、主机密钥对等参数，生成会话密钥和会话</span><span lang="EN-US"><span style="font-family: Calibri;"> ID</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span><span lang="EN-US"><span style="font-family: Calibri;"> </span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-spacerun: yes;"><span style="font-family: Calibri;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">通过以上步骤，服务器端和客户端就取得了相同的会话密钥和会话</span><span lang="EN-US"><span style="font-family: Calibri;">ID</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">对于后续传输的数据，两端都会使用会话密钥进行加密和解密，保证了数据传送的安全</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">在认证阶段，两端会使用会话</span><span lang="EN-US"><span style="font-family: Calibri;"> ID</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">用于认证过程。</span><span lang="EN-US"><span style="font-family: Calibri;"> </span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Note</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-spacerun: yes;"><span style="font-family: Calibri;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">在协商阶段之前，服务器端已经生成</span><span lang="EN-US"><span style="font-family: Calibri;"> RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">或</span><span lang="EN-US"><span style="font-family: Calibri;"> DSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">密钥对，他们主要用于参与会话密钥的生成。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证阶段</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端向服务器端发送认证请求，认证请求中包含用户名、认证方法、与该认证方法相关的内容（如：</span><span lang="EN-US"><span style="font-family: Calibri;">password</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证时，内容为密码）。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器端对客户端进行认证，如果认证失败，则向客户端发送认证失败消息，其中包含可以再次认证的方法列表。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端从认证方法列表中选取一种认证方法再次进行认证。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>4. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">该过程反复进行，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">直到认证成功或者认证次数达到上限，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器关闭连接为止。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">提供两种认证方式：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. password</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证：客户端向服务器发出</span><span lang="EN-US"><span style="font-family: Calibri;"> password</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证请求，将用户名和密码加密后发送给服务器；服务器将该信息解密后得到用户名和密码的明文，与设备上保存的用户名和密码进行比较，并返回认证成功或失败的消息。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. publickey </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证：采用数字签名的方法来认证客户端。目前，设备上可以利用</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;"> DSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">两种公共密钥算法实现数字签名。客户端发送包含用户名、公共密钥和公共密钥算法的</span><span lang="EN-US"><span style="font-family: Calibri;"> publickey </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证请求给服务器端。服务器对公钥进行合法性检查，如果不合法，则直接发送失败消息；否则，服务器利用数字签名对客户端进行认证，并返回认证成功或失败的消息</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">SSH2.0</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">还提供了</span><span lang="EN-US"><span style="font-family: Calibri;"> password-publickey </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证和</span><span lang="EN-US"><span style="font-family: Calibri;"> any </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证</span><span lang="EN-US"><span style="font-family: Calibri;">:</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. password-publickey </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证：指定该用户的认证方式为</span><span lang="EN-US"><span style="font-family: Calibri;"> password </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;"> publickey</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证同时满足。客户端版本为</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的用户只要通过其中一种认证即可登录；客户端版本为</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的用户必须两种认证都通过才能登录。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. any</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证：指定该用户的认证方式可以是</span><span lang="EN-US"><span style="font-family: Calibri;"> password</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，也可以是</span><span lang="EN-US"><span style="font-family: Calibri;"> publickey</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">4.</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">会话请求阶段</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器等待客户端的请求；</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证通过后，客户端向服务器发送会话请求；</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器处理客户端的请求。请求被成功处理后，</span><span style="font-family: Calibri;"> </span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器会向客户端回应</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH_SMSG_SUCCESS</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">包，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">进入交互会话阶段；否则回应</span><span lang="EN-US"><span style="font-family: Calibri;"> SSH_SMSG_FAILURE</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">包，表示服务器处理请求失败或者不能识别请求。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;">5.</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">交互会话阶段</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><span style="font-size: small;">在这个模式下，数据被双向传送：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>1. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端将要执行的命令加密后传给服务器</span><span lang="EN-US"><span style="font-family: Calibri;">;</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>2. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器接收到报文，解密后执行该命令</span><span lang="EN-US"><span style="font-family: Calibri;">,</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">将执行的结果加密发还给客户端</span><span lang="EN-US"><span style="font-family: Calibri;">;</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp; </span>3. </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">客户端将接收到的结果解密后显示到终端上</span><span lang="EN-US"><span style="font-family: Calibri;">.</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><strong><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">五、</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的应用</span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;"><span style="font-size: small;">　　</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">　　　　首先，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">最常见的应用就是，用它来取代传统的</span><span lang="EN-US"><span style="font-family: Calibri;">Telnet</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">FTP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等网络应用程序，通过</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">登录到远方机器执行你想进行的工作与命令。在不安全的网路通讯环境中，它提供了很强的验证（</span><span lang="EN-US"><span style="font-family: Calibri;">authentication</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）机制与非常安全的通讯环境。实际上，</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">开发者的原意是设计它来取代原</span><span lang="EN-US"><span style="font-family: Calibri;">UNIX</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">系统上的</span><span lang="EN-US"><span style="font-family: Calibri;">rcp</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">rlogin</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">rsh</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等指令程序的；但经过适当包装后，发现它在功能上完全可以取代传统的</span><span lang="EN-US"><span style="font-family: Calibri;">Telnet</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">FTP</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等应用程序。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">　　　　传统</span><span lang="EN-US"><span style="font-family: Calibri;"> BSD </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">风格的</span><span lang="EN-US"><span style="font-family: Calibri;"> r </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">系列指令（如</span><span lang="EN-US"><span style="font-family: Calibri;"> rcp</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">rsh</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">rlogin</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）往往都被视为不安全的，很容易就被各种网络攻击手段所破解，几乎所有找得到有关</span><span lang="EN-US"><span style="font-family: Calibri;">UNIX</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">安全的书或文件，都会一而再、再而三地警告系统管理者，留心</span><span lang="EN-US"><span style="font-family: Calibri;">r</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">系列指令的设定，甚至要求系统管理者将</span><span lang="EN-US"><span style="font-family: Calibri;">r</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">系列指令通通关闭。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">　　　　而用来替代</span><span lang="EN-US"><span style="font-family: Calibri;">r</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">系列指令的</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，则在安全方面做了极大的强化，不但对通讯内容可以进行极为安全的加密保护，同时也强化了对身份验证的安全机制，它应用了在密码学（</span><span lang="EN-US"><span style="font-family: Calibri;">Cryptography</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）中已发展出来的数种安全加密机制，如</span><span lang="EN-US"><span style="font-family: Calibri;"> Symmetric Key Cryptography</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">Asymmetric Key Cryptography</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;"> One-way Hash Function</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">Random-number Generation</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等，来加强对于身份验证与通讯内容的安全保护。通讯时资料的加密有</span><span lang="EN-US"><span style="font-family: Calibri;">IDEA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">three-key triple DES</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">DES</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">RC4-128</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">TSS</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">Blowfish </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等数种多种安全加密算法可供选择，加密的</span><span lang="EN-US"><span style="font-family: Calibri;">key</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">则是通过</span><span lang="EN-US"><span style="font-family: Calibri;"> RSA </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">进行交换的。资料的加密可以对抗</span><span lang="EN-US"><span style="font-family: Calibri;">IP spoofing</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">这种非对称性的加密机制则可用来对抗</span><span lang="EN-US"><span style="font-family: Calibri;">DNS spoofing</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">与</span><span lang="EN-US"><span style="font-family: Calibri;">IP routing spoofing</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，同时</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">也可以进行对主机身份的验证。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">　　　　其次，通过使用用</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">可以在本地主机和远程服务器之间设置</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，并且这样设置的</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">可以跟常见的</span><span lang="EN-US"><span style="font-family: Calibri;">Pop</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">应用程序、</span><span lang="EN-US"><span style="font-family: Calibri;">X</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">应用程序、</span><span lang="EN-US"><span style="font-family: Calibri;">Linuxconf</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">应用程序相结合，提供安全保障。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">　　　　</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">是通过</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端口转发</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">来实现的。你可以在本地端口（没有用到的）和在远程服务器上运行的某个服务的端口之间建立</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。然后只要连接到本地端口。所有对本地端口的请求都被</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密并且转发到远程服务器的端口。当然只有远程服务器上运行</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">服务器软件的时候</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">加密通道</span><span lang="EN-US"><span style="font-family: Calibri;">"</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">才能工作。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><strong><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">六、</span><span lang="EN-US"><span style="font-family: Calibri;">SSH Q&amp;A</span></span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small; font-family: Calibri;"><strong></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>Q1: SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的版本和区别。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">避免了</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的专利问题，并修补了</span><span lang="EN-US"><span style="font-family: Calibri;">CRC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的缺陷。</span><span lang="EN-US"><span style="font-family: Calibri;">SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">用数字签名算法（</span><span lang="EN-US"><span style="font-family: Calibri;">DSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）和</span><span lang="EN-US"><span style="font-family: Calibri;">Diffie-Hellman</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">（</span><span lang="EN-US"><span style="font-family: Calibri;">DH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）算法代替</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">来完成对称密钥的交换，用</span><span lang="EN-US"><span style="font-family: Calibri;">HMAC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">来代替</span><span lang="EN-US"><span style="font-family: Calibri;">CRC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。同时</span><span lang="EN-US"><span style="font-family: Calibri;">SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">增加了</span><span lang="EN-US"><span style="font-family: Calibri;">AES</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">Twofish</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等对称加密算法。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>A1: SSH(Secure SHell)</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">到目前为止有两个不兼容的版本——</span><span lang="EN-US"><span style="font-family: Calibri;">SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">SSH2</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span><span lang="EN-US"><span style="font-family: Calibri;">SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">又分为</span><span lang="EN-US"><span style="font-family: Calibri;">1.3</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">1.5</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">两个版本。</span><span lang="EN-US"><span style="font-family: Calibri;">SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">采用</span><span lang="EN-US"><span style="font-family: Calibri;">DES</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">3DES</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;"> Blowfish</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">RC4</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">等对称加密算法保护数据安全传输，而对称加密算法的密钥是通过非对称加密算法（</span><span lang="EN-US"><span style="font-family: Calibri;">RSA</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）来完成交换的。</span><span lang="EN-US"><span style="font-family: Calibri;">SSH1</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">使用循环冗余校验码（</span><span lang="EN-US"><span style="font-family: Calibri;">CRC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">）来保证数据的完整性，但是后来发现这种方法有缺陷。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-spacerun: yes;"><span style="font-family: Calibri;">&nbsp;&nbsp;&nbsp; </span></span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">更多内容请参考</span><span lang="EN-US"><span style="font-family: Calibri;">The SSHv1 Protocol &amp; The SSHv2 Protocol</span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="mso-spacerun: yes;"><span style="font-size: small; font-family: Calibri;">&nbsp;&nbsp;&nbsp; </span></span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp; </span>Q2: </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">什么是</span><span lang="EN-US"><span style="font-family: Calibri;">HMAC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">？</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>A2: HMAC(Hash Message Authentication Code) </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，散列消息鉴别码，基于密钥的</span><span lang="EN-US"><span style="font-family: Calibri;">Hash</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">算法的认证协议。消息鉴别码实现鉴别的原理是，用公开函数和密钥产生一个固定长度的值作为认证标识，用这个标识鉴别消息的完整性。使用一个密钥生成一个固定大小的小数据块，即</span><span lang="EN-US"><span style="font-family: Calibri;">MAC</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，并将其加入到消息中，然后传输。接收方利用与发送方共享的密钥进行鉴别认证等。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>Q3: </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">什么是</span><span lang="EN-US"><span style="font-family: Calibri;">X11 forwarding</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">？</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>A3: sh</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的</span><span lang="EN-US"><span style="font-family: Calibri;">X11 forwarding</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">特性可以使</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">安全地通讯。使用</span><span lang="EN-US"><span style="font-family: Calibri;">X11 forwarding</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">后，从</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">到</span><span lang="EN-US"><span style="font-family: Calibri;">X Server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">方向的数据先被送至</span><span lang="EN-US"><span style="font-family: Calibri;">ssh server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，</span><span lang="EN-US"><span style="font-family: Calibri;">ssh server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">利用和</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的安全通道转发给</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，再由</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">转发给</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">，从</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">到</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的数据流同理。这里</span><span lang="EN-US"><span style="font-family: Calibri;">ssh server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">充当了</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">间数据的转发器，由于</span><span lang="EN-US"><span style="font-family: Calibri;">ssh server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">、</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">一般在同一台机器上，它们之间是一种安全的进程间通讯，而</span><span lang="EN-US"><span style="font-family: Calibri;">ssh server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">ssh client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">间的通讯也是安全的，所以</span><span lang="EN-US"><span style="font-family: Calibri;">X client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">和</span><span lang="EN-US"><span style="font-family: Calibri;">X server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">间的通讯就是安全的。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>Q4: </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">什么是</span><span lang="EN-US"><span style="font-family: Calibri;">TTY</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">？</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>A4: </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">终端是一种字符型设备，它有多种类型，通常使用</span><span lang="EN-US"><span style="font-family: Calibri;">tty</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">来简称各种类型的终端设备。</span><span lang="EN-US"><span style="font-family: Calibri;">tty</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">是</span><span lang="EN-US"><span style="font-family: Calibri;"> Teletype</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">的缩写。</span><span lang="EN-US"><span style="font-family: Calibri;">Teletype</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">是最早出现的一种终端设备，很象电传打字机，是由</span><span lang="EN-US"><span style="font-family: Calibri;">Teletype</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">公司生产的。设备名放在特殊文件目录</span><span lang="EN-US"><span style="font-family: Calibri;">/dev/</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">下。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>Q5: </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">简单描述下</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">运行的过程？</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>A5:</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">简要过程如下：</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* Client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端向</span><span lang="EN-US"><span style="font-family: Calibri;">Server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端发起</span><span lang="EN-US"><span style="font-family: Calibri;">SSH</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">连接请求。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* Server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端向</span><span lang="EN-US"><span style="font-family: Calibri;">Client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端发起版本协商。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">协商结束后</span><span lang="EN-US"><span style="font-family: Calibri;">Server</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端发送</span><span lang="EN-US"><span style="font-family: Calibri;">Host Key</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">公钥</span><span lang="EN-US"><span style="font-family: Calibri;"> Server Key</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">公钥，随机数等信息。到这里所有通信是不加密的。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* Client</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">端返回确认信息，同时附带用公钥加密过的一个随机数，用于双方计算</span><span lang="EN-US"><span style="font-family: Calibri;">Session Key</span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">进入认证阶段。从此以后所有通信均加密。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="font-family: Calibri;"><span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>* </span></span><span style="font-family: 宋体; mso-ascii-font-family: Calibri; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: 宋体; mso-fareast-theme-font: minor-fareast; mso-hansi-font-family: Calibri; mso-hansi-theme-font: minor-latin;">认证成功后，进入交互阶段。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="font-size: small; font-family: Calibri;">&nbsp;</span></span></p>
+<p>&nbsp;</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox bdshare-button-style0-16" style="float: right;" data-bd-bind="1414725326249">
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间" style="background-position:0 -52px !important"></a>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博" style="background-position:0 -104px !important"></a>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博" style="background-position:0 -260px !important"></a>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_renren" data-cmd="renren" title="分享到人人网" style="background-position:0 -208px !important"></a>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5691924#" class="bds_weixin" data-cmd="weixin" title="分享到微信" style="background-position:0 -1612px !important"></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul class="article_next_prev">
+            <li class="prev_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;]);location.href=&#39;/macrossdzh/article/details/5681938&#39;;">上一篇</span><a href="http://blog.csdn.net/macrossdzh/article/details/5681938" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;])">套接口绑定错误：Address already in use的解决</a></li>
+            <li class="next_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;]);location.href=&#39;/macrossdzh/article/details/5704672&#39;;">下一篇</span><a href="http://blog.csdn.net/macrossdzh/article/details/5704672" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;])">IPv6基本头和IPv6扩展头</a></li>
+</ul>
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/bds_s_v2.js"></script>
+
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+</div>
+      <dl class="blog-associat-tag">
+        <dt>主题推荐</dt>
+        <dd>
+                <a href="http://www.csdn.net/tag/ssh" target="_blank" class="blog-tage-red">ssh</a> 
+                <a href="http://www.csdn.net/tag/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BD%AF%E4%BB%B6" target="_blank" class="blog-tage-red">服务器软件</a> 
+                <a href="http://www.csdn.net/tag/%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F" target="_blank" class="blog-tage-red">应用程序</a> 
+                <a href="http://www.csdn.net/tag/%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8" target="_blank" class="blog-tage-red">网络应用</a> 
+                <a href="http://www.csdn.net/tag/%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB" target="_blank" class="blog-tage-red">网络攻击</a> 
+        </dd>
+    </dl> 
+
+
+<dl class="blog-ass-articl tracking-ad" data-mod="popu_36" id="res-relatived"> 
+     <dt><span>猜你在找</span></dt>    
+<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/BIAOBIAOqi/article/details/7713180" title="建立ssh远程控制" strategy="CFRecommendAlgorithm" target="_blank">建立ssh远程控制</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/cwj649956781/article/details/7394659" title="面试宝典-数据库-操作系统-计算机网络" strategy="CFRecommendAlgorithm" target="_blank">面试宝典-数据库-操作系统-计算机网络</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/caoxu1987728/article/details/6342791" title="非阻塞同步机制" strategy="CFRecommendAlgorithm" target="_blank">非阻塞同步机制</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/mengxiangfeiyang/article/details/7974739" title="Oracle 中关于null值的概念以及逻辑运算" strategy="CFRecommendAlgorithm" target="_blank">Oracle 中关于null值的概念以及逻辑运算</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/saintxzm/article/details/5874072" title="printf记录程序日志，彻底告别vsnprintf" strategy="CFRecommendAlgorithm" target="_blank">printf记录程序日志，彻底告别vsnprintf</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/lxhjh/article/details/8964503" title="SpringMVC构建REST接口:第六篇 服务层实现" strategy="CFRecommendAlgorithm" target="_blank">SpringMVC构建REST接口:第六篇 服务层实现</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/icy_csdn/article/details/5436126" title="Java callback JAVA实现回调" strategy="CFRecommendAlgorithm" target="_blank">Java callback JAVA实现回调</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/kuangreng/article/details/6474895" title="sqlite基础配置" strategy="CFRecommendAlgorithm" target="_blank">sqlite基础配置</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/fjh658/article/details/4814806" title="关于jdk7中的新语法带String的switch " strategy="CFRecommendAlgorithm" target="_blank">关于jdk7中的新语法带String的switch </a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/hanchaoman/article/details/5395491" title="GNU makefile 指南 " strategy="CFRecommendAlgorithm" target="_blank">GNU makefile 指南 </a></dd></dl>
+
+<script type="text/javascript">
+    var searchtitletags = 'SSH协议介绍' + ',' + 'ssh,服务器软件,应用程序,网络应用,网络攻击';
+    searchService({
+        index: 'blog',
+        query: searchtitletags,
+        from: 10,
+        size: 10,
+        appendTo: '#res-relatived',
+        url: 'recommend',
+        his: 2,
+        client: "blog_cf_enhance",
+        tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+    });
+
+ </script>   
+
+
+    <div id="ad_cen">
+   
+          <script type="text/javascript">
+              new Ad(4, 'ad_cen');
+          </script>
+    </div>
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:csdn.showLogin(function (dat) {js_logined(dat.data.userName);});">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fmacrossdzh%2Farticle%2Fdetails%2F5691924">[注册]</a></div></div>
+
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '5691924';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+    <script type="text/javascript">
+    new Ad(5, 'ad_bot');
+    </script>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop" style="" title="返回顶部" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_huidaodingbu&#39;])">         
+         <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);
+        
+
+        if($("#comment_content").length>0)
+        {
+            $("#quick-reply").show();
+
+            $("#quick-reply").click(function(){
+                setEditorFocus();
+            });
+        }       
+     
+        var d_top = $('#d-top-a');
+        document.onscroll = function ()
+        {
+            var scrTop = (document.body.scrollTop || document.documentElement.scrollTop);
+            if (scrTop > 500)
+            {
+                d_top.show();
+            } else
+            {
+                d_top.hide();
+            }
+        }
+        $('#d-top-a').click(function ()
+        {
+            scrollTo(0, 0);
+            this.blur();
+            return false;
+        });
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+<div class="tag_list">
+    <h5>
+        <a href="http://www.csdn.net/tag/" target="_blank">核心技术类目</a></h5>
+    <div class="classify">
+<a title="全部主题" href="http://www.csdn.net/tag" target="_blank" onclick="LogClickCount(this,336);">全部主题</a>
+<a title="Hadoop" href="http://g.csdn.net/5272865" target="_blank" onclick="LogClickCount(this,336);">Hadoop</a>
+<a title="AWS" href="http://g.csdn.net/5272866" target="_blank" onclick="LogClickCount(this,336);">AWS</a>
+<a title="移动游戏" href="http://g.csdn.net/5272870" target="_blank" onclick="LogClickCount(this,336);">移动游戏</a>
+<a title="Java" href="http://g.csdn.net/5272871" target="_blank" onclick="LogClickCount(this,336);">Java</a>
+<a title="Android" href="http://g.csdn.net/5272872" target="_blank" onclick="LogClickCount(this,336);">Android</a>
+<a title="iOS" href="http://g.csdn.net/5272873" target="_blank" onclick="LogClickCount(this,336);">iOS</a>
+<a title="Swift" href="http://g.csdn.net/5272868" target="_blank" onclick="LogClickCount(this,336);">Swift</a>
+<a title="智能硬件" href="http://g.csdn.net/5272869" target="_blank" onclick="LogClickCount(this,336);">智能硬件</a>
+<a title="Docker" href="http://g.csdn.net/5272867" target="_blank" onclick="LogClickCount(this,336);">Docker</a>
+<a title="OpenStack" href="http://g.csdn.net/5272925" target="_blank" onclick="LogClickCount(this,336);">OpenStack</a>
+<a title="VPN" href="http://www.csdn.net/tag/vpn" target="_blank" onclick="LogClickCount(this,336);">VPN</a>
+<a title="Spark" href="http://g.csdn.net/5272924" target="_blank" onclick="LogClickCount(this,336);">Spark</a>
+<a title="ERP" href="http://www.csdn.net/tag/erp" target="_blank" onclick="LogClickCount(this,336);">ERP</a>
+<a title="IE10" href="http://www.csdn.net/tag/ie10" target="_blank" onclick="LogClickCount(this,336);">IE10</a>
+<a title="Eclipse" href="http://www.csdn.net/tag/eclipse" target="_blank" onclick="LogClickCount(this,336);">Eclipse</a>
+<a title="CRM" href="http://www.csdn.net/tag/crm" target="_blank" onclick="LogClickCount(this,336);">CRM</a>
+<a title="JavaScript" href="http://www.csdn.net/tag/javascript" target="_blank" onclick="LogClickCount(this,336);">JavaScript</a>
+<a title="数据库" href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93" target="_blank" onclick="LogClickCount(this,336);">数据库</a>
+<a title="Ubuntu" href="http://www.csdn.net/tag/ubuntu" target="_blank" onclick="LogClickCount(this,336);">Ubuntu</a>
+<a title="NFC" href="http://www.csdn.net/tag/nfc" target="_blank" onclick="LogClickCount(this,336);">NFC</a>
+<a title="WAP" href="http://www.csdn.net/tag/wap" target="_blank" onclick="LogClickCount(this,336);">WAP</a>
+<a title="jQuery" href="http://www.csdn.net/tag/jquery" target="_blank" onclick="LogClickCount(this,336);">jQuery</a>
+<a title="BI" href="http://www.csdn.net/tag/bi" target="_blank" onclick="LogClickCount(this,336);">BI</a>
+<a title="HTML5" href="http://www.csdn.net/tag/html5" target="_blank" onclick="LogClickCount(this,336);">HTML5</a>
+<a title="Spring" href="http://www.csdn.net/tag/spring" target="_blank" onclick="LogClickCount(this,336);">Spring</a>
+<a title="Apache" href="http://www.csdn.net/tag/apache" target="_blank" onclick="LogClickCount(this,336);">Apache</a>
+<a title=".NET" href="http://www.csdn.net/tag/.net" target="_blank" onclick="LogClickCount(this,336);">.NET</a>
+<a title="API" href="http://www.csdn.net/tag/api" target="_blank" onclick="LogClickCount(this,336);">API</a>
+<a title="HTML" href="http://www.csdn.net/tag/html" target="_blank" onclick="LogClickCount(this,336);">HTML</a>
+<a title="SDK" href="http://www.csdn.net/tag/sdk" target="_blank" onclick="LogClickCount(this,336);">SDK</a>
+<a title="IIS" href="http://www.csdn.net/tag/iis" target="_blank" onclick="LogClickCount(this,336);">IIS</a>
+<a title="Fedora" href="http://www.csdn.net/tag/fedora" target="_blank" onclick="LogClickCount(this,336);">Fedora</a>
+<a title="XML" href="http://www.csdn.net/tag/xml" target="_blank" onclick="LogClickCount(this,336);">XML</a>
+<a title="LBS" href="http://www.csdn.net/tag/lbs" target="_blank" onclick="LogClickCount(this,336);">LBS</a>
+<a title="Unity" href="http://www.csdn.net/tag/unity" target="_blank" onclick="LogClickCount(this,336);">Unity</a>
+<a title="Splashtop" href="http://www.csdn.net/tag/splashtop" target="_blank" onclick="LogClickCount(this,336);">Splashtop</a>
+<a title="UML" href="http://www.csdn.net/tag/uml" target="_blank" onclick="LogClickCount(this,336);">UML</a>
+<a title="components" href="http://www.csdn.net/tag/components" target="_blank" onclick="LogClickCount(this,336);">components</a>
+<a title="Windows Mobile" href="http://www.csdn.net/tag/windowsmobile" target="_blank" onclick="LogClickCount(this,336);">Windows Mobile</a>
+<a title="Rails" href="http://www.csdn.net/tag/rails" target="_blank" onclick="LogClickCount(this,336);">Rails</a>
+<a title="QEMU" href="http://www.csdn.net/tag/qemu" target="_blank" onclick="LogClickCount(this,336);">QEMU</a>
+<a title="KDE" href="http://www.csdn.net/tag/kde" target="_blank" onclick="LogClickCount(this,336);">KDE</a>
+<a title="Cassandra" href="http://www.csdn.net/tag/cassandra" target="_blank" onclick="LogClickCount(this,336);">Cassandra</a>
+<a title="CloudStack" href="http://www.csdn.net/tag/cloudstack" target="_blank" onclick="LogClickCount(this,336);">CloudStack</a>
+<a title="FTC" href="http://www.csdn.net/tag/ftc" target="_blank" onclick="LogClickCount(this,336);">FTC</a>
+<a title="coremail" href="http://www.csdn.net/tag/coremail" target="_blank" onclick="LogClickCount(this,336);">coremail</a>
+<a title="OPhone " href="http://www.csdn.net/tag/ophone" target="_blank" onclick="LogClickCount(this,336);">OPhone </a>
+<a title="CouchBase" href="http://www.csdn.net/tag/couchbase" target="_blank" onclick="LogClickCount(this,336);">CouchBase</a>
+<a title="云计算" href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97" target="_blank" onclick="LogClickCount(this,336);">云计算</a>
+<a title="iOS6" href="http://www.csdn.net/tag/iOS6" target="_blank" onclick="LogClickCount(this,336);">iOS6</a>
+<a title="Rackspace " href="http://www.csdn.net/tag/rackspace" target="_blank" onclick="LogClickCount(this,336);">Rackspace </a>
+<a title="Web App" href="http://www.csdn.net/tag/webapp" target="_blank" onclick="LogClickCount(this,336);">Web App</a>
+<a title="SpringSide" href="http://www.csdn.net/tag/springside" target="_blank" onclick="LogClickCount(this,336);">SpringSide</a>
+<a title="Maemo" href="http://www.csdn.net/tag/maemo" target="_blank" onclick="LogClickCount(this,336);">Maemo</a>
+<a title="Compuware" href="http://www.csdn.net/tag/compuware" target="_blank" onclick="LogClickCount(this,336);">Compuware</a>
+<a title="大数据" href="http://www.csdn.net/tag/%E5%A4%A7%E6%95%B0%E6%8D%AE" target="_blank" onclick="LogClickCount(this,336);">大数据</a>
+<a title="aptech" href="http://www.csdn.net/tag/aptech" target="_blank" onclick="LogClickCount(this,336);">aptech</a>
+<a title="Perl" href="http://www.csdn.net/tag/perl" target="_blank" onclick="LogClickCount(this,336);">Perl</a>
+<a title="Tornado" href="http://www.csdn.net/tag/tornado" target="_blank" onclick="LogClickCount(this,336);">Tornado</a>
+<a title="Ruby" href="http://www.csdn.net/tag/ruby" target="_blank" onclick="LogClickCount(this,336);">Ruby</a>
+<a title="Hibernate" href="http://www.csdn.net/hibernate" target="_blank" onclick="LogClickCount(this,336);">Hibernate</a>
+<a title="ThinkPHP" href="http://www.csdn.net/tag/thinkphp" target="_blank" onclick="LogClickCount(this,336);">ThinkPHP</a>
+<a title="HBase" href="http://www.csdn.net/tag/hbase" target="_blank" onclick="LogClickCount(this,336);">HBase</a>
+<a title="Pure" href="http://www.csdn.net/tag/pure" target="_blank" onclick="LogClickCount(this,336);">Pure</a>
+<a title="Solr" href="http://www.csdn.net/tag/solr" target="_blank" onclick="LogClickCount(this,336);">Solr</a>
+<a title="Angular" href="http://www.csdn.net/tag/angular" target="_blank" onclick="LogClickCount(this,336);">Angular</a>
+<a title="Cloud Foundry" href="http://www.csdn.net/tag/cloudfoundry" target="_blank" onclick="LogClickCount(this,336);">Cloud Foundry</a>
+<a title="Redis" href="http://www.csdn.net/tag/redis" target="_blank" onclick="LogClickCount(this,336);">Redis</a>
+<a title="Scala" href="http://www.csdn.net/tag/scala" target="_blank" onclick="LogClickCount(this,336);">Scala</a>
+<a title="Django" href="http://www.csdn.net/tag/django" target="_blank" onclick="LogClickCount(this,336);">Django</a>
+<a title="Bootstrap" href="http://www.csdn.net/tag/bootstrap" target="_blank" onclick="LogClickCount(this,336);">Bootstrap</a>
+    </div>
+</div>
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+            <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/macrossdzh" target="_blank">
+    <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/1_macrossdzh.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/macrossdzh" class="user_name" target="_blank">macrossdzh</a></span>
+</div>
+<div class="interact">
+<a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_guanzhu&#39;])"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open(&#39;http://msg.csdn.net/letters/model?receiver=macrossdzh&#39;,&#39;_blank&#39;,&#39;height=350,width=700&#39;);_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_sixin&#39;])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>190545次</span></li>
+    <li>积分：<span>2792</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+            <img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：2792 </div>
+        </span>  </li>
+    <li>排名：<span>第4311名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>86篇</span></li>
+    <li>转载：<span>38篇</span></li>
+    <li>译文：<span>1篇</span></li>
+    <li>评论：<span>31条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog">
+        <input type="hidden" name="q" id="inputQ">
+        <input type="hidden" name="t" value="blog">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";
+            window.location.href = url;
+        }   
+    });
+</script>
+<div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/747978" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Andriod</a><span>(3)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/571021" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">C/C++</a><span>(20)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/571023" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">linux内核</a><span>(21)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/571022" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">linux系统和维护</a><span>(17)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/571024" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">SCTP</a><span>(2)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/607204" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">TCP/IP网络协议</a><span>(15)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/598937" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">windows</a><span>(1)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/608414" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">其它</a><span>(14)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/572164" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">开源软件</a><span>(8)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/747746" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">数据库</a><span>(2)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/830103" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">硬件</a><span>(3)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/748501" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">网络编程开发</a><span>(3)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/747765" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">计算机体系结构与操作系统</a><span>(6)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/873245" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">DSP开发</a><span>(1)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/macrossdzh/article/category/911942" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">嵌入式开发</a><span>(5)</span>
+            </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/12">2012年12月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/11">2012年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/10">2012年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/07">2012年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/06">2012年06月</a><span>(1)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/04">2012年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/03">2012年03月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/02">2012年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2012/01">2012年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2011/12">2011年12月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2011/10">2011年10月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2011/08">2011年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2011/06">2011年06月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2011/02">2011年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/12">2010年12月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/11">2010年11月</a><span>(8)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/10">2010年10月</a><span>(19)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/09">2010年09月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/07">2010年07月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/06">2010年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/05">2010年05月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/04">2010年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/03">2010年03月</a><span>(13)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/02">2010年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2010/01">2010年01月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/12">2009年12月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/11">2009年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/10">2009年10月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/09">2009年09月</a><span>(15)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/08">2009年08月</a><span>(9)</span></li><li><a href="http://blog.csdn.net/macrossdzh/article/month/2009/07">2009年07月</a><span>(5)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5958368" title="kmalloc、vmalloc、malloc的区别">kmalloc、vmalloc、malloc的区别</a><span>(15244)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4601648" title="谈EXPORT_SYMBOL使用">谈EXPORT_SYMBOL使用</a><span>(12891)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/6528420" title="不同型号和CCS版本的DSP程序Flash烧写总结">不同型号和CCS版本的DSP程序Flash烧写总结</a><span>(6516)</span>
+</li>
+<li>
+<a href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET.html" title="SSH协议介绍">SSH协议介绍</a><span>(6403)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4491957" title="netlink学习笔记(一)">netlink学习笔记(一)</a><span>(5982)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5120010" title="Linux中用命令清空回收站">Linux中用命令清空回收站</a><span>(4960)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5967914" title="spin_lock_bh（）与spin_unlock_bh（）">spin_lock_bh（）与spin_unlock_bh（）</a><span>(4529)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5937782" title="关于Linux运维的一些题目总结">关于Linux运维的一些题目总结</a><span>(4433)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5973639" title="ext2、ext3与ext4的区别">ext2、ext3与ext4的区别</a><span>(4198)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5438306" title="内核构造skb数据包的实现总结">内核构造skb数据包的实现总结</a><span>(3453)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4588681" title="句柄与指针的区别">句柄与指针的区别</a><span>(6)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5360777" title="IPv6实现--传入包的处理流程（1）">IPv6实现--传入包的处理流程（1）</a><span>(5)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4601648" title="谈EXPORT_SYMBOL使用">谈EXPORT_SYMBOL使用</a><span>(5)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5954763" title="物理地址、虚拟地址（线性地址）、逻辑地址以及MMU的知识">物理地址、虚拟地址（线性地址）、逻辑地址以及MMU的知识</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4700012" title="内核中的hash和bucket">内核中的hash和bucket</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/4532326" title="如何理解c和c++的复杂类型声明">如何理解c和c++的复杂类型声明</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/6528420" title="不同型号和CCS版本的DSP程序Flash烧写总结">不同型号和CCS版本的DSP程序Flash烧写总结</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5968776" title="解释语言和编译语言的区别">解释语言和编译语言的区别</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5958368" title="kmalloc、vmalloc、malloc的区别">kmalloc、vmalloc、malloc的区别</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/macrossdzh/article/details/5967914" title="spin_lock_bh（）与spin_unlock_bh（）">spin_lock_bh（）与spin_unlock_bh（）</a><span>(1)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend"></ul>
+</div>
+<script type="text/javascript">
+ new Ad(12, 'ad_commend');
+</script><div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/4588681#comments">句柄与指针的区别</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u013028876" class="user_name">李爽11期</a>:
+感谢分享。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/5958368#comments">kmalloc、vmalloc、malloc的区别</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/wunderup" class="user_name">wunderup</a>:
+学习了，总结的很好。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/4601648#comments">谈EXPORT_SYMBOL使用</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/taozuiqizhong" class="user_name">taozuiqizhong</a>:
+static int func2(void){        extern int func1(vo...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/5967914#comments">spin_lock_bh（）与spin_unlock_bh（）</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/zy1306" class="user_name">zy1306</a>:
+硬件中断一般不允许嵌套。“首先，当前的用户上下文可能被softirq中断；其次，临界区可能会在别的C...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/5975012#comments">Android系统介绍</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/lml1010402004" class="user_name">lml1010402004</a>:
+学习了
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/5975012#comments">句柄与指针的区别</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u012339743" class="user_name">卿笃军</a>:
+赞
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/5975012#comments">谈EXPORT_SYMBOL使用</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/hu71613528" class="user_name">hu71613528</a>:
+好东西，要收藏。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/6528420#comments">不同型号和CCS版本的DSP程序Flash烧写总结</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/oscarbond" class="user_name">oscarbond</a>:
+说的有一定参考价值，但是内容有点老了。现在使用CCS4.2的居多了。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/6528420#comments">句柄与指针的区别</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/prstaxy" class="user_name">枫轩缘</a>:
+不错，转了
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/macrossdzh/article/details/4700104#comments">Linux 内核有多少代码是来自华人的贡献？</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/cebor" class="user_name">cebor</a>:
+现在情况比以前好多了,有华人进入KERNEL Patch Statistic,就是一种进步.
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/cnick.js"></script>
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/showblogmedal.ashx"></script>
+<script type="text/javascript">
+    document.write('<script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/publib_footer.js?' + Math.floor(new Date() / 120000).toString(36) + '="></' + 'script>');
+</script><script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/publib_footer.js"></script><link rel="stylesheet" type="text/css" href="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/pub_footer_2012.css"><div id="pub_footerall" class="pub_footerall"><dl><dt></dt> <dd><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a>|<a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a>|<a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a>|<a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a>|<a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a>|<a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a>|<a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a>|<a href="mailto:webmaster@csdn.net">问题报告</a>|<a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a>|<a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd><a href="http://wpa.qq.com/msgrd?v=3&uin=2355263776&site=qq&menu=yes" target="_blank" class="qq">网站客服</a> <a href="http://wpa.qq.com/msgrd?v=3&uin=2251809102&site=qq&menu=yes" target="_blank" class="qq">杂志客服</a> <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a> <a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a> <span class="phone" title="服务热线">400-600-2320</span></dd><dd>京&nbsp;ICP&nbsp;证&nbsp;070598&nbsp;号</dd><dd>北京创新乐知信息技术有限公司 版权所有</dd><dd>江苏乐知网络技术有限公司 提供商务支持</dd><dd>Copyright © 1999-2014, CSDN.NET, All Rights Reserved&nbsp;<a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div><div id="note1" class="csdn_note" style="display:none; position:absolute; z-index:9999; width:440px">  <span class="notice_top_arrow"><span class="inner"></span></span>  <div class="box"></div></div><div class="csdn_notice_tip" style="display: none; position: absolute; z-index: 9990; width: 170px;">  <iframe src="about:blank" frameborder="0" scrolling="no" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe>  <div class="tip_text">您有<strong>0</strong>条新通知</div>  <a href="javascript:void 0" class="close2"></a></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/notify.js"></script>
+    <script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/pv.aspx" border="0" width="0" height="0">
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/msg.popup.js"></script>
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/ad-blog.js"></script>
+<script type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/count.js"></script><iframe src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/logs.html" frameborder="0" width="0" height="0"></iframe>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a>"
+                    + "<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+    });
+</script>
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="./SSH协议介绍 - Macross的专栏 - 博客频道 - CSDN.NET_files/toolbar.js"></script>
+     <!--new top-->
+
+
+<div id="tag-suggest-pop">
+  <div class="relative">
+    <div class="close"></div>
+    <div class="content"></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,557 @@
+/* HTML Elements */
+* {
+	 margin:0;
+	 padding:0;
+	}
+
+body {
+     font-family:"微软雅黑","宋体",arial,helvetica,sans-serif;
+     font-size:100%;
+     font-size-adjust:none;
+     font-stretch:normal;
+     font-style:normal;
+     font-variant:normal;
+     font-weight:normal;
+     background-color: #E2EAF8;
+	}
+
+p {	
+	 margin: 5px 0px 10px 8px;
+	}
+
+a:link, a:visited {
+	 color: #3c78a7;
+	 text-decoration:none
+	}
+
+a:hover, a:active {
+	 color: #9B0033;
+	 text-decoration:underline;
+	}
+
+a img {
+	 border:0;
+	}
+
+code {
+	 font: 1.0em 'Courier New', Courier, Fixed;
+	 background:#ececec;
+	}	
+
+acronym, abbr, span.caps {	
+	 font-size: 0.9em;
+	 letter-spacing: .07em;
+	 cursor: help;
+	}			
+
+acronym, abbr {
+	 border-bottom: 1px dashed #999;
+	}
+
+blockquote {
+	 padding: 10px 10px 0 10px;
+	 border-top: 1px solid #ddd;
+	 border-bottom: 1px solid #ddd;
+	 background: #eee;
+	 font:1.0em Arial;
+	 line-height:1.5em;
+	 margin:10px 0px;
+	}
+
+select {
+	 width: 130px;
+	}	
+
+/* Structure */
+
+#head {
+	 width:960px;
+	 margin:0px auto;
+ 	 padding:0px;
+	 font-size:0.8em;
+	}
+
+
+#page {
+	 width:940px;
+	 margin:0px auto;
+	 padding:10px;
+         font-size:0.7em;
+	 background-color: #F7F7F7;
+	}
+
+.left, .alignleft {
+	 float:left;
+     padding-top:10px;
+     width:400px;
+	}
+
+.right, .alignright {
+	 float:right;
+     padding-top:10px;
+     padding-right:10px;
+     width:300px;
+     text-align:right;
+	}
+
+#searchform {
+	 width:250px;
+	 float:right;
+	 text-align:right;
+	 padding-top:8px;
+	}
+	
+/* Navigation Bar*/
+#navbar {
+	 margin:0 auto;
+	 margin-top:8px;
+         padding:0px;
+	 text-transform:uppercase;
+	 background: #E2EAF8 url(images/head-bg.png);
+	}
+
+#page-bar {
+	 width:940px;
+         padding:0px;
+	}
+
+#page-bar ul {
+	 list-style: none;
+	}
+
+#page-bar li {
+	 float:left;
+	 list-style:none;
+	 cursor: pointer;
+	 display:block;
+	 border-right:1px solid #333;
+	}
+
+#page-bar li:hover {
+	 background: #7e99c9; /* 靠近标题时颜色*/
+	}
+
+#page-bar a, #page-bar a:visited {
+	 margin: 0px;
+	 padding:9px 35px;
+	 font-weight:bold;
+	 color:#FFF;
+	 display:block;
+	}
+
+#page-bar a:hover {
+	 text-decoration:none;
+	 display:block;
+	}
+
+/* ----------下拉框格式---------- */	
+#page-bar li {
+	 float: left;
+	}
+	
+#page-bar li li {
+	 float: left;
+	 width: 122px;
+	 text-transform:none;
+	}
+	
+#page-bar li li a, #page-bar li li a:link, #page-bar li li a:visited {
+	 background: #152e5a;/* ----------下拉框背景色---------- */
+	 width: 130px;/* ----------下拉框宽度---------- */
+	 float: none;
+	 margin: 0px;
+	 padding: 5px 10px 5px 18px;
+	 border-top: 1px solid #C0C0C0;
+	}
+	
+#page-bar li li a:hover, #page-bar li li a:active {
+	 background: #5889dd;/* ----------靠近下拉框时颜色---------- */
+	 padding: 5px 10px 5px 18px;
+	}
+
+#page-bar li ul {
+	 position: absolute;
+	 width: 12em;
+     z-index:1;
+	 left: -999em;
+	}
+
+#page-bar li:hover ul {
+	 left: auto;
+	 display: block;
+	}
+	
+#page-bar li:hover ul, #page-bar li.sfhover ul {
+	 left: auto;
+	}
+
+
+/* Text*/
+
+h1 {
+	 font:3.5em Arial;
+	 font-weight:bold;
+	 letter-spacing:-0.08em;
+	}
+
+h2 {
+	 font:1.1em ;
+	}
+
+h3 {
+	 font:1.3em;
+	 color:#3c78a7;
+	 font-weight:bold;
+	}
+
+
+h4 {
+     font:1.2em "微软雅黑",arial;
+     font-weight:bold;
+     background: url(images/bar.gif) repeat-x scroll left top;
+     color:#fff;
+     text-align:left;
+     padding:3px 10px;
+	}
+
+h3#comments {
+	 margin-top:32px;
+	 padding-left:0px;
+	}
+
+/* Index Page*/
+
+#logo {
+	 width:350px;
+         margin-top:10px;
+	}
+
+#leftd {
+	 width:704px;
+	 float:left;
+	 background:#fff;
+	}
+
+#top {
+	 width:704px;
+	 float:left;
+	 margin-bottom:10px;
+	 background:#fff;
+	}
+
+#middle {
+	 width:704px;
+	 background-color: #fff;
+	 font-size:1.1em;
+	 float:left;
+	}
+
+#verisign {
+	 width:226px;
+         float:left;
+         border:1px solid #ccc;
+         margin-right:10px;
+	}
+#verisign  ul {
+	 list-style: none;
+	}
+	
+#verisign li {
+	 list-style:none;
+	 display:block;
+	}
+	
+#thawte {
+	 width:226px;
+         border:1px solid #ccc;
+         float:left;
+	}
+	
+#thawte ul {
+	 list-style: none;
+	}
+	
+#thawte li {
+	 list-style:none;
+	 display:block;
+	}
+#geotrust {
+	 width:226px;
+         border:1px solid #ccc;
+         float:right;
+	}
+#geotrust  ul {
+	 list-style: none;
+	}
+	
+#geotrust li {
+	 list-style:none;
+	 display:block;
+	}
+	
+#bottom {
+	 width:704px;
+         margin-top:10px;
+	 float:left;
+	}
+.content {
+	 font-size:1.1em;
+	 line-height:1.75em;
+	}	
+	
+#knowledge {
+         width:226px;
+	 margin-right:10px;
+	 border:1px solid #ccc;
+	 float:left;
+	}
+#knowledge ul {
+	 list-style: none;
+	}
+	
+#knowledge li {
+	 list-style:none;
+	 display:block;
+	}
+	
+#download {
+         width:226px;
+	 border:1px solid #ccc;
+	 float:left;
+	}
+#download ul {
+	 list-style: none;
+	}
+	
+#download li {
+	 list-style:none;
+	 display:block;
+	}
+
+#faq {
+         width:226px;
+	 border:1px solid #ccc;
+	 float:right;
+	}
+#faq ul {
+	 list-style: none;
+	}
+	
+#faq li {
+	 list-style:none;
+	 display:block;
+	}
+	
+#rightd {
+	 width:224px;
+	 float:right;
+	}
+	
+#front-popular h3 {
+	 color:#fff;
+	}
+
+/* Content Page*/
+
+#content {
+	 width:704px;
+	 background:#fff;
+	 font-size:1.05em;
+	 line-height:1.75em;
+	 float:left;
+	 min-height:400px;
+	}
+
+#content .breadcrumbs, #content .breadcrumbs a {
+	 font-weight:bold;
+	 color:#333;
+	}
+
+#content h2.title {
+	 font:1.3em Georgia;
+	 font-weight:bold;
+	 letter-spacing:-0.05em;
+	 border-bottom:1px solid #ddd;
+	 border-top:3px solid #ddd;
+	 padding:5px 0px;
+	}
+
+.post {
+	 font-size:1.05em;
+	 line-height:1.75em;
+	}
+
+.post p {
+	 margin-top:0px;
+	}
+
+.post .clearfloat {
+	 margin-top:10px;
+	}
+
+.post ul, .post ol, #front-list ul, #front-list ol {
+	 margin-bottom:15px;
+	}
+
+.post ul li, #front-list ul li {	
+	 list-style:square;
+	 margin-left:30px;
+	}
+
+.post ol li, #front-list ol li {	
+	 list-style:decimal;
+	 margin-left:30px;
+	}
+
+.post ol li ul li, #front-list ol li ul li {	
+	 list-style:square;
+	 margin-left:20px;
+	}
+
+.post img, .post a img, #front-list img, #archive img {
+	 border:1px solid #ccc;
+	 margin:0 10px 5px 0;
+	 padding:2px;
+	}
+
+.post .ads {
+	 margin-top:10px;
+	}
+
+.entry {
+	 margin-top:10px;
+	}
+
+/* Sidebar*/
+#sidebar {
+	 width:224px;
+	 float:right;
+	}
+
+#sidebar h3 {
+	 font:1.2em "微软雅黑",arial;
+	 font-weight:bold;
+	 background:  url(images/bar.gif) repeat-x scroll left top;
+         text-align:Center;
+	 color:#fff;
+	 padding:3px 10px;
+	}
+#sidebar-bottom {
+	 width:222px;
+	 border:1px solid #ccc;
+	 float:right;
+	}
+
+#sidebar-top {
+	 width:222px;
+     margin-top:10px;
+	 float:right;
+     border:1px solid #ccc;
+	}
+
+.title2 {
+     background-image:url(images/quick2.png);
+     height:22px;
+     font-size:1.1em;
+     font-weight:normal;
+     padding:6px 0 0 45px;
+}
+
+#sidebar-left {
+	 width:222px;
+	 border:1px solid #ccc;
+	 float:right;
+	}
+.title1 {
+     background-image:url(images/quick.png);
+     height:22px;
+     font-size:1.1em;
+     font-weight:normal;
+     padding:6px 0 0 45px;
+}
+
+#sidebar-right {
+	 width:222px;
+	 border:1px solid #ccc;
+	 float:right;
+	}
+
+/* Form Elements */
+
+select {
+	 border:1px solid #333;
+	 width:100%
+	}
+	
+.field {
+	 padding: 2px;
+	 border:1px solid #333;
+	 background:#fff;
+	 font-size:1.0em;
+	}
+
+#s {
+	 padding:1px;
+	 font-size:1.0em;
+	 width:150px;
+	}
+	
+#searchsubmit {
+	 padding-left:5px;
+	}
+
+#commentform input {
+	 width: 140px;
+	 margin: 5px 5px 1px 0;
+	}
+
+#commentform textarea {
+	 width: 99%;
+	 margin-top:5px;
+	}
+
+/* Footer*/
+
+#front-popular {
+	 font-size:0.8em;
+	 color:#fff;
+         text-align:center;
+   	 width: 940px;
+	 background:#61759a url(images/v.png) bottom no-repeat;
+	 margin: 0 auto;
+	 padding:10px;
+	}
+
+#footer {
+	 margin: 0 auto;
+	 width: 960px;
+     text-align:center;
+	 font-size:0.7em;
+	 padding-top:10px;
+	 padding-bottom:10px;
+	}
+
+.clearfloat:after {
+	 content:".";
+	 display:block;
+	 height:0;
+	 clear:both;
+	 visibility:hidden;
+	}
+
+.clearfloat {
+     display:block;
+	}
+
+/* Hides from IE-mac \*/
+* html .clearfloat {
+	 height:1%;
+	}
+
+*+html .clearfloat {
+	 height:1%;
+	}
+
+.clearfloat {
+	 display:block;
+	}
